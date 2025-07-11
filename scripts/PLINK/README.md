@@ -28,7 +28,9 @@ Each pVCF file contains all variants for one chromosome (here across 12,509 indi
 ### Run the script
 
 To convert one chromosome:
+
 sbatch pVCF_to_plink.sh <CHR>
+
 Example: sbatch pVCF_to_plink.sh 1
 
 
