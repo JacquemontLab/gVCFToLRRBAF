@@ -7,8 +7,8 @@ The script is designed to be launched independently for each chromosome to allow
 Indeed, pVCF files are very large because they contain all variants for an entire chromosome across a large number of individuals (in this case, 12,509). To efficiently manage memory and processing time, each chromosome is processed separately.
 
 File organization
-	•	Input directory (inputDir): /home/$USER/projects/rrg-jacquese/All_user_common_folder/RAW_DATA_old/SPARK_V2_V3-2021_10/iWGS_v1_gVCF/deepvariant/pvcf This directory contains one pVCF file per chromosome (24 files total). Example: wgs_12509_genome.deepvariant.chr1.vcf.gz
-	•	Output directory (outputDir): $workDir/pvcfToPlink This directory will contain the resulting PLINK files. Example: wgs_12509_genome.deepvariant.chr1.bed wgs_12509_genome.deepvariant.chr1.bim wgs_12509_genome.deepvariant.chr1.fam
+     Input directory (inputDir): /home/$USER/projects/rrg-jacquese/All_user_common_folder/RAW_DATA_old/SPARK_V2_V3-2021_10/iWGS_v1_gVCF/deepvariant/pvcf This directory contains one pVCF file per chromosome (24 files total). Example: wgs_12509_genome.deepvariant.chr1.vcf.gz
+     Output directory (outputDir): $workDir/pvcfToPlink This directory will contain the resulting PLINK files. Example: wgs_12509_genome.deepvariant.chr1.bed wgs_12509_genome.deepvariant.chr1.bim wgs_12509_genome.deepvariant.chr1.fam
 
 Required module
 StdEnv/2020. # compute canada environmmenet 2020
