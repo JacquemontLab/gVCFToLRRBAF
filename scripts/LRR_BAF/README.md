@@ -1,8 +1,8 @@
-# Perl Script: Extracting BAF and Log R Ratio from a gVCF File
+# Perl Script fromgVCFToSignalIntensity.pl: Extracting BAF and Log R Ratio from a gVCF File
 
 ## Description
 
-This Perl script extracts SNP-level information from a gVCF file, including coverage, B Allele Frequency (BAF), and Log R Ratio (LRR).
+This Perl script,fromgVCFToSignalIntensity.pl, extracts SNP-level information from a gVCF file, including coverage, B Allele Frequency (BAF), and Log R Ratio (LRR).
 
 It relies on bcftools to filter variants, exclude problematic regions, and reformat the output into a structure compatible with CNV analysis tools.
 
