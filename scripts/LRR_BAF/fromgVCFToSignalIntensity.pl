@@ -1,34 +1,56 @@
 #!/usr/bin/env perl
 use warnings;     # Display helpful warnings for potential issues
 use strict;       # Enforce variable declarations to avoid bugs
-use Getopt::Long; # Module to parse command-line options (like --outfile)
+use Getopt::Long; # Module to parse command-line options (like --sample_id)
+
 
 # ------------------------------------------
 # Script purpose:
-# Given a compressed gVCF file (.g.vcf.gz), this script extracts biallelic SNPs,
-# calculates B Allele Frequency (BAF) and Log R Ratio (LRR), and outputs two files:
-# - <prefix>.read1       → Contains coverage, BAF, and B Allele Count (BAC)
-# - <prefix>.finalReport → Format compatible with PennCNV and QuantiSNP
+# This script processes a compressed gVCF file (.gvcf.gz) to extract biallelic SNPs 
+# and compute two types of variant-level metrics used in CNV and allele-specific analyses:
+#
+# 1. Coverage-based SNP metrics:
+#    - Output file: <prefix>.snp_metrics.tsv
+#    - Content: Per-SNP coverage (DP), B Allele Count (BAC, i.e., count of ALT alleles), 
+#      and B Allele Frequency (BAF = BAC / DP)
+#
+# 2. Log R Ratio (LRR) and BAF for CNV detection tools:
+#    - Output file: <prefix>.baf_lrr.tsv
+#    - Content: Formatted for compatibility with CNV calling tools such as PennCNV and QuantiSNP.
+#      Includes genomic coordinates, BAF, and LRR (log ratio of observed vs mean coverage).
+#
+# Options:
+#   --sample_id        Output filename prefix (required)
+#   --genome_version   Genome version used to exclude known problematic regions (default: GRCh38)
+#
+# Dependencies:
+#   - bcftools must be available in the system path.
+#   - A genome-specific exclusion list: resources/Genome_Regions_data.tsv
+#     (should contain GRCh38 and/or GRCh37 region names to exclude from CNV inference)
+#
+# Example usage:
+#   perl extract_baf_lrr.pl sample.gvcf.gz --sample_id sample_output --genome_version GRCh38
 # ------------------------------------------
+
 
 use Cwd 'abs_path';
 use File::Basename;
 
 my $script_dir  = dirname(abs_path($0)); # directory containing the script
 
-# Command-line variable: --outfile specifies the output file prefix
-my $outfile;
+# Command-line variable: --sample_id specifies the output file prefix
+my $sample_id;
 my $genome_version = "GRCh38";  # default value
 
-# Parse options: --outfile and --genome_version
+# Parse options: --sample_id and --genome_version
 GetOptions(
-    'outfile=s'        => \$outfile,
+    'sample_id=s'        => \$sample_id,
     'genome_version=s' => \$genome_version,
-) or die "Usage: perl script.pl input.gvcf.gz --outfile outputprefix [--genome_version GRCh37|GRCh38]\n";
+) or die "Usage: perl script.pl input.gvcf.gz --sample_id outputprefix [--genome_version GRCh37|GRCh38]\n";
 
-# Ensure one input file and --outfile provided
-@ARGV == 1 && $outfile
-  or die "Usage: perl script.pl input.gvcf.gz --outfile outputprefix [--genome_version GRCh37|GRCh38]\n";
+# Ensure one input file and --sample_id provided
+@ARGV == 1 && $sample_id
+  or die "Usage: perl script.pl input.gvcf.gz --sample_id outputprefix [--genome_version GRCh37|GRCh38]\n";
 
 # Input gVCF file
 my $input_gvcf = $ARGV[0];
@@ -37,14 +59,14 @@ my $input_gvcf = $ARGV[0];
 my $meancov;
 
 # Step 1: Extract SNPs and calculate BAF
-readVariantInfo("$outfile.read1");
+readVariantInfo("$sample_id.snp_metrics.tsv");
 
 # Step 2: Compute Log R Ratio and generate final report
-addLRRBAF("$outfile.read1", "$outfile.finalReport", $meancov);
+addLRRBAF("$sample_id.snp_metrics.tsv", "$sample_id.baf_lrr.tsv", $meancov, $sample_id);
 
 # ===================================================
 # FUNCTION: Extract SNPs and compute BAF
-# Output: <prefix>.read1
+# Output: <prefix>.snp_metrics.tsv
 # ===================================================
 sub readVariantInfo {
     my ($readoutfile) = @_;
@@ -113,17 +135,13 @@ sub readVariantInfo {
 
 # ===================================================
 # FUNCTION: Compute Log R Ratio and write final output
-# Output: <prefix>.finalReport (PennCNV-compatible)
+# Output: <prefix>.baf_lrr.tsv (PennCNV and QuantiSNP compatible)
 # ===================================================
 sub addLRRBAF {
-    my ($readinfile, $readoutfile, $meancov) = @_;
+    my ($readinfile, $readoutfile, $meancov, $prefix) = @_;
 
     # Fallback if mean coverage was not calculated
     $meancov ||= 30;
-
-    # Extract prefix from filename (e.g., "sample.read1" → "sample")
-    my ($prefix) = $readinfile =~ m{([^/]+)\.read1$}
-        or die "Error: cannot extract prefix from <$readinfile>\n";
 
     print STDERR "NOTICE: Adding LRR/BAF to final report: $readoutfile\n";
 

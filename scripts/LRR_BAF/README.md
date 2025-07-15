@@ -8,8 +8,8 @@ It relies on bcftools to filter variants, exclude problematic regions, and refor
 
 ## Output Files
 
-- <prefix>.read1 : Contains SNPs with coverage (Coverage), B Allele Count (BAC), and BAF.
-- <prefix>.finalReport : Contains the same SNPs with the following columns: **Name, Chr, Position, Log R Ratio** (calculated from global mean coverage), and **B Allele Frequency**. 
+- <prefix>.snp_metrics.tsv : Contains SNPs with coverage (Coverage), B Allele Count (BAC), and BAF.
+- <prefix>.baf_lrr.tsv : Contains the same SNPs with the following columns: **Name, Chr, Position, Log R Ratio** (calculated from global mean coverage), and **B Allele Frequency**. 
 
 This format is **compatible with PennCNV and QuantiSNP**, allowing direct downstream integration.
 
@@ -17,12 +17,12 @@ This format is **compatible with PennCNV and QuantiSNP**, allowing direct downst
 
 - Perl
 - bcftools installed and accessible in your system PATH
-- A compressed and indexed gVCF file (.g.vcf.gz )
+- A compressed and indexed gVCF file (.gvcf.gz)
 
 ## Usage
-perl script.pl input_file.g.vcf.gz --outfile output_prefix
-Example Output (output_prefix.finalReport)
-Name               Chr   Position   output_prefix.Log R Ratio   output_prefix.B Allele Freq
+perl extract_baf_lrr.pl sample.gvcf.gz --sample_id sample_output --genome_version GRCh38
+Example Output (sample_id.baf_lrr.tsv)
+Name               Chr   Position   sample_id.Log R Ratio   sample_id.B Allele Freq
 chr1:10000-10000    1     10000              -0.08                    0.50
 chr1:10234-10234    1     10234               0.12                    0.33
 
@@ -38,4 +38,4 @@ BAF Calculation:
 Log R Ratio Calculation:
 	•	LRR = log(observed coverage / mean coverage )
 Author
-Mame Seynabou Diop PhD Candidate in Bioinformatics 2025
+Mame Seynabou Diop PhD Candidate in Bioinformatics 2025
