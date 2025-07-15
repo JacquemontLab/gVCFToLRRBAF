@@ -11,16 +11,24 @@ use Getopt::Long; # Module to parse command-line options (like --outfile)
 # - <prefix>.finalReport → Format compatible with PennCNV and QuantiSNP
 # ------------------------------------------
 
+use Cwd 'abs_path';
+use File::Basename;
+
+my $script_dir  = dirname(abs_path($0)); # directory containing the script
+
 # Command-line variable: --outfile specifies the output file prefix
 my $outfile;
+my $genome_version = "GRCh38";  # default value
 
-# Parse the --outfile option
-GetOptions('outfile=s' => \$outfile)
-  or die "Usage: perl script.pl input.g.vcf.gz --outfile outputprefix\n";
+# Parse options: --outfile and --genome_version
+GetOptions(
+    'outfile=s'        => \$outfile,
+    'genome_version=s' => \$genome_version,
+) or die "Usage: perl script.pl input.gvcf.gz --outfile outputprefix [--genome_version GRCh37|GRCh38]\n";
 
-# Ensure one input file and one output prefix are provided
+# Ensure one input file and --outfile provided
 @ARGV == 1 && $outfile
-  or die "Usage: perl script.pl input.g.vcf.gz --outfile outputprefix\n";
+  or die "Usage: perl script.pl input.gvcf.gz --outfile outputprefix [--genome_version GRCh37|GRCh38]\n";
 
 # Input gVCF file
 my $input_gvcf = $ARGV[0];
@@ -44,8 +52,11 @@ sub readVariantInfo {
     # Build bcftools pipeline:
     my $command = "bcftools view -m3 -M3 -V indels $input_gvcf | " .               # Keep only biallelic SNPs
                   "bcftools filter -e 'format/GQ<20|format/DP<10' | " .            # Filter out low-quality genotypes
-                  "bcftools view -T ^/home/mame20/projects/rrg-jacquese/All_user_common_folder/ANALYSIS_DIRECTORY/SeynabouWGS/regionMappability/newProblematicRegion/difficultregion_segdup_centromere_HLA_uniq  | " .        # Exclude known problematic regions
+                  "bcftools view -T ^<(grep \"$genome_version\" $script_dir/resources/Genome_Regions_data.tsv)  | " .        # Exclude known problematic regions
                   "bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO[\t%GT\t%AD\t%DP]\n' |";
+
+    # Print the command for debugging
+    print STDERR "DEBUG: Running command:\n$command\n";
 
     # Initialize counters
     my ($countsite, $countcov, $countsnp) = (0, 0, 0);
