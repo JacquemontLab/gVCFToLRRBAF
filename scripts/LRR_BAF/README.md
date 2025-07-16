@@ -20,8 +20,10 @@ This format is **compatible with PennCNV and QuantiSNP**, allowing direct downst
 - A compressed and indexed gVCF file (.gvcf.gz)
 
 ## Usage
-perl fromgVCFToSignalIntensity.pl sample_id.gvcf.gz --outfile sample_id 
+perl fromgVCFToSignalIntensity.pl sample_id.gvcf.gz --outfile sample_id
+
 Example Output (sample_id.finalReport)
+
 Name               Chr   Position   sample_id.Log R Ratio   sample_id.B Allele Freq
 chr1:10000-10000    1     10000              -0.08                    0.50
 chr1:10234-10234    1     10234               0.12                    0.33
