@@ -30,14 +30,18 @@ chr1:10234-10234    1     10234               0.12                    0.33
 
 
 Processing Steps
+
 SNP Filtering and Extraction:
 	•	Keep only biallelic variants
 	•	Exclude INDELs
 	•	Keep variants with DP >=10 and GQ >=20
 	•	Exclude known problematic regions (e.g., centromeres, segmental duplications, HLA)
+ 
 BAF Calculation:
 	•	BAF = alt allele count / total depth
+ 
 Log R Ratio Calculation:
 	•	LRR = log(observed coverage / mean coverage )
+ 
 Author
 Mame Seynabou Diop PhD Candidate in Bioinformatics 2025
