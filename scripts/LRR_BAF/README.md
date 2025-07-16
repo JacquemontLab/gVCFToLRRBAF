@@ -8,8 +8,8 @@ It relies on bcftools to filter variants, exclude problematic regions, and refor
 
 ## Output Files
 
-- <prefix>.snp_metrics.tsv : Contains SNPs with coverage (Coverage), B Allele Count (BAC), and BAF.
-- <prefix>.baf_lrr.tsv : Contains the same SNPs with the following columns: **Name, Chr, Position, Log R Ratio** (calculated from global mean coverage), and **B Allele Frequency**. 
+- <prefix>.read1 : Contains SNPs with coverage (Coverage), B Allele Count (BAC), and BAF.
+- <prefix>.finalReport : Contains the same SNPs with the following columns: **Name, Chr, Position, Log R Ratio** (calculated from global mean coverage), and **B Allele Frequency**. 
 
 This format is **compatible with PennCNV and QuantiSNP**, allowing direct downstream integration.
 
@@ -20,8 +20,8 @@ This format is **compatible with PennCNV and QuantiSNP**, allowing direct downst
 - A compressed and indexed gVCF file (.gvcf.gz)
 
 ## Usage
-perl extract_baf_lrr.pl sample.gvcf.gz --sample_id sample_output --genome_version GRCh38
-Example Output (sample_id.baf_lrr.tsv)
+perl fromgVCFToSignalIntensity.pl sample_id.gvcf.gz --outfile sample_id 
+Example Output (sample_id.finalReport)
 Name               Chr   Position   sample_id.Log R Ratio   sample_id.B Allele Freq
 chr1:10000-10000    1     10000              -0.08                    0.50
 chr1:10234-10234    1     10234               0.12                    0.33
