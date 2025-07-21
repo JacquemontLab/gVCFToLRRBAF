@@ -1,0 +1,20 @@
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_MEASUREMENT = "fr_FR.UTF-8",
+	LC_PAPER = "fr_FR.UTF-8",
+	LC_MONETARY = "fr_FR.UTF-8",
+	LC_NAME = "fr_FR.UTF-8",
+	LC_ADDRESS = "fr_FR.UTF-8",
+	LC_NUMERIC = "fr_FR.UTF-8",
+	LC_TELEPHONE = "fr_FR.UTF-8",
+	LC_IDENTIFICATION = "fr_FR.UTF-8",
+	LC_TIME = "fr_FR.UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to a fallback locale ("en_US.UTF-8").
+🔄 Processing: wgs_12509_genome.deepvariant.chrY
+⏱️ view   | Chr:  | Time: 23:20.93 | CPU: 94% | Mem: 96848 KB
+⏱️ index  | Chr:  | Time: 0:02.28 | CPU: 34% | Mem: 10836 KB
+✅ Done: wgs_12509_genome.deepvariant.chrY
