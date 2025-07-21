@@ -12,4 +12,4 @@ J'avais pris le fichier de Guillaume et je l'ai liftover. J'y ai rajouté des re
 inputDir=/home/$USER/projects/rrg-jacquese/All_user_common_folder/RAW_DATA_old/SPARK_V2_V3-2021_10/iWGS_v1_gVCF/deepvariant/pvcf
 
 
-Pour les gVCF, ils sont ici /home/mame20/projects/rrg-jacquese/All_user_common_folder/RAW_DATA_old/SPARK_V2_V3-2021_10/iWGS_v1_gVCF/deepvariant/gvcf
+Pour les gVCF, ils sont ici /home/$USER/projects/rrg-jacquese/All_user_common_folder/RAW_DATA_old/SPARK_V2_V3-2021_10/iWGS_v1_gVCF/deepvariant/gvcf

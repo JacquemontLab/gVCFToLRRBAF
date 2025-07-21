@@ -59,13 +59,8 @@ outPrefix=$(basename "$inputVcf" .vcf.gz)
 
 
 # Get number of CPUs
-if [[ -n "$SLURM_CPUS_ON_NODE" ]]; then
-    cpus="$SLURM_CPUS_ON_NODE"
-    echo "Detected SLURM CPUs: $SLURM_CPUS_ON_NODE"
-else
-    cpus=$(nproc)
-    echo "Available CPUs: $cpus"
-fi
+cpus="${SLURM_CPUS_ON_NODE:-$(nproc)}"
+echo "💻 Running with $ncores cores"
 
 # Get memory safely: prefer SLURM allocated memory
 if [[ -n "$SLURM_MEM_PER_NODE" ]]; then

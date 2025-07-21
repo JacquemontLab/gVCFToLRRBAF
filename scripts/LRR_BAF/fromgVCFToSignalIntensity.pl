@@ -4,6 +4,7 @@ use strict;       # Enforce variable declarations to avoid bugs
 use Getopt::Long; # Module to parse command-line options (like --sample_id)
 
 
+
 # ------------------------------------------
 # Script purpose:
 # This script processes a compressed gVCF file (.gvcf.gz) to extract biallelic SNPs 
@@ -74,7 +75,7 @@ sub readVariantInfo {
     # Build bcftools pipeline:
     my $command = "bcftools view -m3 -M3 -V indels $input_gvcf | " .               # Keep only biallelic SNPs
                   "bcftools filter -e 'format/GQ<20|format/DP<10' | " .            # Filter out low-quality genotypes
-                  "bcftools view -T ^<(grep \"$genome_version\" $script_dir/resources/Genome_Regions_data.tsv)  | " .        # Exclude known problematic regions
+                  "bcftools view -T ^$script_dir/resources/Genome_Regions_data_${genome_version}.tsv  | " .        # Exclude known problematic regions
                   "bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO[\t%GT\t%AD\t%DP]\n' |";
 
     # Print the command for debugging

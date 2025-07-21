@@ -104,6 +104,12 @@ cat centromere_${genome_version}.tsv telomere_${genome_version}.tsv | sort -k1,1
 
 
 
+## One file per genome version
 
+grep GRCh38 Genome_Regions_data.tsv > Genome_Regions_data_GRCh38.tsv
 
+grep GRCh37 Genome_Regions_data.tsv > Genome_Regions_data_GRCh37.tsv
 
+# Extract lines with GRCh37 but exclude lines containing PAR or XTR
+grep GRCh38 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh37.tsv
+grep GRCh38 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh38.tsv

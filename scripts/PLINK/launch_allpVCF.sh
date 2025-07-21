@@ -23,8 +23,14 @@
 #   accessible in the same directory or in your PATH.
 # ---------------------------------------------------------
 
-# Loop through autosomes 1 to 22 and sex chromosomes X and Y
-for chr in {1..22} X Y; do
-  echo "Submitting job for chromosome $chr"
-  sbatch pVCF_to_plink.sh $chr
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
+inputDir=/home/$USER/projects/rrg-jacquese/flben/WGS_pipeline/test/data/subset_10_samples
+outputDir=/home/$USER/projects/rrg-jacquese/flben/WGS_pipeline/test/data/plink
+
+# Loop over all .vcf.gz files
+find "$inputDir" -type f -name "*.vcf.gz" | while read -r vcf_file; do
+  echo "Submitting job for file: $vcf_file"
+  # sbatch pVCF_to_plink.sh "$vcf_file" "$outputDir"
+  $SCRIPT_DIR/pVCF_to_plink.sh "$vcf_file" "$outputDir"
 done
