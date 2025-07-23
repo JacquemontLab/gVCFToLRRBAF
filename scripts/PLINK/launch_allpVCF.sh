@@ -24,7 +24,7 @@
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 
-inputDir=/home/$USER/projects/rrg-jacquese/flben/WGS_pipeline/test/data/subset_10_samples_v2
+inputDir=/home/$USER/projects/rrg-jacquese/flben/WGS_pipeline/test/data/subset_10_samples
 outputDir=/home/$USER/projects/rrg-jacquese/flben/WGS_pipeline/test/data/plink
 
 # Loop over all .vcf.gz files

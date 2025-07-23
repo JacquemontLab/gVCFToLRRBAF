@@ -1,9 +1,4 @@
 #!/bin/bash
-#SBATCH --ntasks=1
-#SBATCH --mem=75010M
-#SBATCH --time=03:00:00
-#SBATCH --account=rrg-jacquese
-#SBATCH --nodes=1
 
 ##########################################################################################
 #*****************************************************************************************
@@ -11,21 +6,32 @@
 # Script: filter_merge_missing.sh
 # Author: Mame Seynabou Diop
 #
+# Description:
+#   - Applies per-chromosome quality control filters on SNP-only data:
+#       * --geno (SNP missingness)
+#       * --mind (individual missingness)
+#       * --hwe (Hardy-Weinberg equilibrium)
+#       * --maf (minor allele frequency, default ≥ 1/1000)
+#   - Excludes chromosomes X and Y; only chromosomes 1–22 are retained.
+#   - Merges the filtered per-chromosome datasets into a single binary PLINK dataset.
+#   - Computes missing data statistics (--missing) on the merged dataset,
+#     which can be used for further analyses such as PFB file generation.
+#
+# Optional environment variables:
+#   GENO=0.05     # SNP missingness threshold (default)
+#   MIND=0.05     # Individual missingness threshold (default)
+#   HWE=1e-6      # Hardy-Weinberg equilibrium threshold (default)
+#   MAF=0.001     # Minor allele frequency threshold (default)
+#
+# Usage:
+#   ./filter_merge_missing.sh <input_bfile_dir> <output_dir> [additional plink2 options]
+#
+# Example:
+#   ./filter_merge_missing.sh data/genos output/ --geno 0.02 --mind 0.02 --hwe 1e-5 --maf 0.005
+#
 #*****************************************************************************************
 ##########################################################################################
 
-
-# Description:
-# - Applies per-chromosome filters: geno, mind, hwe, maf (MAF ≥ 1/1000), on SNP-only data
-# - Merges all chromosomes using plink2 --pmerge-list
-# - Computes missing data statistics (--missing) on the merged dataset. This one will help to calulate PFB file
-#
-# Optional environment variables:
-#   GENO=0.05     # SNP missingness threshold
-#   MIND=0.05     # Individual missingness threshold
-#   HWE=1e-6      # Hardy-Weinberg equilibrium threshold
-#   MAF=0.001     # Minor allele frequency threshold
-##########################################################################################
 
 # ----------------------------- Argument checks ------------------------------------
 
@@ -150,6 +156,7 @@ plink2 \
   --memory "$plink_mem" \
   --pmerge-list list.txt \
   --make-bed \
+  --chr 1-22 \
   --out $mergedDir/merged_dataset
 
 

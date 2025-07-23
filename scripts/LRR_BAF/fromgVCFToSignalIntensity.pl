@@ -4,33 +4,45 @@ use strict;       # Enforce variable declarations to avoid bugs
 use Getopt::Long; # Module to parse command-line options (like --sample_id)
 
 
-
 # ------------------------------------------
-# Script purpose:
-# This script processes a compressed gVCF file (.gvcf.gz) to extract biallelic SNPs 
-# and compute two types of variant-level metrics used in CNV and allele-specific analyses:
+# Script: fromgVCFToSignalIntensity.pl
 #
-# 1. Coverage-based SNP metrics:
-#    - Output file: <prefix>.snp_metrics.tsv
-#    - Content: Per-SNP coverage (DP), B Allele Count (BAC, i.e., count of ALT alleles), 
-#      and B Allele Frequency (BAF = BAC / DP)
+# Purpose:
+#   Processes a compressed gVCF file (.gvcf.gz) to:
+#     1. Extract biallelic SNPs with adequate coverage and quality
+#     2. Calculate per-SNP metrics: 
+#        - Coverage (DP)
+#        - B Allele Count (BAC)
+#        - B Allele Frequency (BAF = BAC / DP)
+#     3. Generate input for CNV detection tools (PennCNV, QuantiSNP):
+#        - Log R Ratio (LRR) = log(observed coverage / mean coverage)
+#        - BAF
 #
-# 2. Log R Ratio (LRR) and BAF for CNV detection tools:
-#    - Output file: <prefix>.baf_lrr.tsv
-#    - Content: Formatted for compatibility with CNV calling tools such as PennCNV and QuantiSNP.
-#      Includes genomic coordinates, BAF, and LRR (log ratio of observed vs mean coverage).
+# Output:
+#   - <prefix>.snp_metrics.tsv : Coverage-based metrics per SNP
+#   - <prefix>.baf_lrr.tsv     : Final table for CNV callers
 #
-# Options:
-#   --sample_id        Output filename prefix (required)
-#   --genome_version   Genome version used to exclude known problematic regions (default: GRCh38)
+# Required arguments:
+#   <input.gvcf.gz>         Compressed gVCF input file (must be bgzipped and indexed)
+#   --sample_id STRING      Output file prefix (e.g., "sample123")
+#
+# Optional arguments:
+#   --genome_version STRING  Genome build: GRCh38 (default) or GRCh37
+#   --output_dir STRING      Directory to save output files (default: current directory)
+#   --GQ INT                 Minimum genotype quality (default: 20)
+#   --DP INT                 Minimum depth of coverage (default: 10)
 #
 # Dependencies:
-#   - bcftools must be available in the system path.
-#   - A genome-specific exclusion list: resources/Genome_Regions_data.tsv
-#     (should contain GRCh38 and/or GRCh37 region names to exclude from CNV inference)
+#   - bcftools must be installed and in the system PATH
+#   - Exclusion list: resources/Genome_Regions_data_<genome_version>.tsv
 #
-# Example usage:
-#   perl extract_baf_lrr.pl sample.gvcf.gz --sample_id sample_output --genome_version GRCh38
+# Example:
+#   perl fromgVCFToSignalIntensity.pl sample.gvcf.gz \
+#     --sample_id sample123 \
+#     --genome_version GRCh38 \
+#     --output_dir results/ \
+#     --GQ 20 \
+#     --DP 10
 # ------------------------------------------
 
 
@@ -81,7 +93,7 @@ sub readVariantInfo {
     # Build bcftools pipeline:
     my $command = "bcftools view -m3 -M3 -V indels $input_gvcf | " .               # Keep only biallelic SNPs
                   "bcftools filter -e 'format/GQ<$GQ|format/DP<$DP' | " .            # Filter out low-quality genotypes
-                  "bcftools view -T ^$script_dir/resources/Genome_Regions_data_${genome_version}.tsv  | " .        # Exclude known problematic regions
+                  "bcftools view -T ^$script_dir/resources/Genome_Regions_data_${genome_version}.bed  | " .        # Exclude known problematic regions
                   "bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO[\t%GT\t%AD\t%DP]\n' |";
 
     # Print the command for debugging
