@@ -1,9 +1,4 @@
 #!/bin/bash
-#SBATCH --ntasks=1                  
-#SBATCH --mem=48000M                # Memory requested 
-#SBATCH --time=2:30:00              # Maximum run time
-#SBATCH --account=rrg-jacquese      # Cluster account
-#SBATCH --nodes=1                   # Number of nodes
 
 ##########################################################################################
 #*****************************************************************************************
@@ -14,9 +9,18 @@
 ##########################################################################################
 
 # --------------------------------------------------------------------
-# Convert a pVCF to PLINK binary format (BED/BIM/FAM) for a single
-# chromosome, applying a simple depth (DP) filter.
+# Convert a pVCF to PLINK binary format (BED/BIM/FAM) applying a simple depth (DP) filter.
 # --------------------------------------------------------------------
+
+# Explanation of PLINK2 options used:
+# --vcf             = input pVCF file
+# --memory          = memory allocated to PLINK in megabytes (MB)
+# --snps-only       = keep only SNPs, exclude indels and other variant types
+# --max-alleles 2   = keep only biallelic variants (variants with exactly 2 alleles)
+# --vcf-min-dp 1    = exclude genotypes with depth (DP) less than 1
+# --vcf-half-call m = treat half-called genotypes (e.g., 0/.) as missing ("m")
+# --make-bed        = generate binary PLINK output files: .bed, .bim, .fam
+# --out             = prefix used for naming output files
 
 
 # Usage check
@@ -60,7 +64,7 @@ outPrefix=$(basename "$inputVcf" .vcf.gz)
 
 # Get number of CPUs
 cpus="${SLURM_CPUS_ON_NODE:-$(nproc)}"
-echo "💻 Running with $ncores cores"
+echo "💻 Running with $cpus cores"
 
 # Get memory safely: prefer SLURM allocated memory
 if [[ -n "$SLURM_MEM_PER_NODE" ]]; then
@@ -93,13 +97,3 @@ plink2 \
   --make-bed \
   --out "$outputDir/$outPrefix"
 
-
-# Explanation of PLINK2 options:
-# --vcf             = input pVCF file for the specified chromosome
-# --memory          = memory allocated to PLINK in megabytes (MB)
-# --snps-only       = keep only SNPs, exclude indels and other variant types
-# --max-alleles 2   = keep only biallelic variants (variants with exactly 2 alleles)
-# --vcf-min-dp 1    = exclude genotypes with depth (DP) less than 1
-# --vcf-half-call m = treat half-called genotypes (e.g., 0/.) as missing ("m")
-# --make-bed        = generate binary PLINK output files: .bed, .bim, .fam
-# --out             = prefix used for naming output files

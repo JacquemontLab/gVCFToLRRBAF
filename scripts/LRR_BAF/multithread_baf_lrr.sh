@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Environment setup to avoid locale prel in batch environments
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
     
 #======================================================================
 # Batch parallel CNV caller with cpu managment. Relies on cnv_caling.sh 
@@ -42,6 +46,21 @@ if [[ -z "$batch_list" || -z "$output_dir" ]]; then
   exit 1
 fi
 
+
+# Load bcftools if needed
+if ! command -v bcftools >/dev/null 2>&1; then
+    echo "'bcftools' not found — loading modules..."
+    module load bcftools
+
+    # Check again
+    if ! command -v bcftools >/dev/null 2>&1; then
+        echo "Error: bcftools is still not available after loading modules." >&2
+        exit 1
+    fi
+else
+    echo "bcftools is already available."
+fi
+
 # Get the absolute path of the script
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 
@@ -52,14 +71,16 @@ cpus="${SLURM_CPUS_ON_NODE:-$(nproc)}"
 echo "💻 Running with $cpus cores"
 
 # Export necessary vars for GNU Parallel
-export SCRIPT_DIR output_dir
+export SCRIPT_DIR
+export output_dir
 
 # Run in parallel
 cat "$batch_list" | parallel -j "$cpus" --colsep '\t' --eta --line-buffer '
   sample={1}
   gvcf={2}
   echo "🔄 Processing $sample"
-  perl "$SCRIPT_DIR/fromgVCFToSignalIntensity.pl" "$gvcf" \
-    --sample_id "$output_dir/$sample" \
+  perl "/home/flben/projects/rrg-jacquese/flben/WGS_pipeline/scripts/LRR_BAF/fromgVCFToSignalIntensity.pl" "$gvcf" \
+    --sample_id "$sample" \
+    --output_dir "$output_dir" \
     --genome_version "GRCh38"
 '

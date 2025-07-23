@@ -19,16 +19,27 @@
 # - Applies per-chromosome filters: geno, mind, hwe, maf (MAF ≥ 1/1000), on SNP-only data
 # - Merges all chromosomes using plink2 --pmerge-list
 # - Computes missing data statistics (--missing) on the merged dataset. This one will help to calulate PFB file
+#
+# Optional environment variables:
+#   GENO=0.05     # SNP missingness threshold
+#   MIND=0.05     # Individual missingness threshold
+#   HWE=1e-6      # Hardy-Weinberg equilibrium threshold
+#   MAF=0.001     # Minor allele frequency threshold
 ##########################################################################################
 
 # ----------------------------- Argument checks ------------------------------------
-if [[ $# -ne 2 ]]; then
-    echo "Usage: $0 <input_bfile_dir> <outputDir>"
+
+if [[ $# -lt 2 ]]; then
+    echo "Usage: $0 <input_bfile_prefix> <output_dir> [additional plink2 options]"
+    echo ""
+    echo "Example:"
+    echo "  $0 data/genos/geno output/ --geno 0.05 --mind 0.05 --hwe 1e-6 --maf 0.001"
     exit 1
 fi
 
 inputDir="$1"
 outputDir="$2"
+shift 2  # Remove inputPrefix and outputDir from $@
 
 # Check input dir
 if [[ ! -d "$inputDir" ]]; then
@@ -67,7 +78,7 @@ fi
 
 # Get number of CPUs
 cpus="${SLURM_CPUS_ON_NODE:-$(nproc)}"
-echo "💻 Running with $ncores cores"
+echo "💻 Running with $cpus cores"
 
 # Get memory safely: prefer SLURM allocated memory
 if [[ -n "$SLURM_MEM_PER_NODE" ]]; then
@@ -89,8 +100,8 @@ echo "Setting PLINK threads to: $cpus"
 
 # Define directories
 filteredDir=$outputDir/filtered_chr
-mergedDir=$filteredDir/merged
-statsDir=$mergedDir/stats
+statsDir=$outputDir/stats
+mergedDir=$outputDir
 
 mkdir -p $filteredDir $mergedDir $statsDir
 
@@ -107,10 +118,7 @@ for bed_file in "$inputDir"/*.bed; do
     --bfile "$prefix" \
     --threads "$cpus" \
     --memory "$plink_mem" \
-    --geno 0.05 \
-    --mind 0.05 \
-    --hwe 0.000001 \
-    --maf 0.001 \
+    "$@" \
     --make-bed \
     --out "$filteredDir/${base_name}.filtered"
 done
@@ -152,3 +160,6 @@ plink2 \
   --memory "$plink_mem" \
   --missing \
   --out $statsDir/merged_dataset.missing
+
+
+rm -rf list.txt "$filteredDir"
