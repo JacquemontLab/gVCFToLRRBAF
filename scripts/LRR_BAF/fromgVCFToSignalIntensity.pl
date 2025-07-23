@@ -5,31 +5,44 @@ use Getopt::Long; # Module to parse command-line options (like --sample_id)
 
 
 # ------------------------------------------
-# Script purpose:
-# This script processes a compressed gVCF file (.gvcf.gz) to extract biallelic SNPs 
-# and compute two types of variant-level metrics used in CNV and allele-specific analyses:
+# Script: fromgVCFToSignalIntensity.pl
 #
-# 1. Coverage-based SNP metrics:
-#    - Output file: <prefix>.snp_metrics.tsv
-#    - Content: Per-SNP coverage (DP), B Allele Count (BAC, i.e., count of ALT alleles), 
-#      and B Allele Frequency (BAF = BAC / DP)
+# Purpose:
+#   Processes a compressed gVCF file (.gvcf.gz) to:
+#     1. Extract biallelic SNPs with adequate coverage and quality
+#     2. Calculate per-SNP metrics: 
+#        - Coverage (DP)
+#        - B Allele Count (BAC)
+#        - B Allele Frequency (BAF = BAC / DP)
+#     3. Generate input for CNV detection tools (PennCNV, QuantiSNP):
+#        - Log R Ratio (LRR) = log(observed coverage / mean coverage)
+#        - BAF
 #
-# 2. Log R Ratio (LRR) and BAF for CNV detection tools:
-#    - Output file: <prefix>.baf_lrr.tsv
-#    - Content: Formatted for compatibility with CNV calling tools such as PennCNV and QuantiSNP.
-#      Includes genomic coordinates, BAF, and LRR (log ratio of observed vs mean coverage).
+# Output:
+#   - <prefix>.snp_metrics.tsv : Coverage-based metrics per SNP
+#   - <prefix>.baf_lrr.tsv     : Final table for CNV callers
 #
-# Options:
-#   --sample_id        Output filename prefix (required)
-#   --genome_version   Genome version used to exclude known problematic regions (default: GRCh38)
+# Required arguments:
+#   <input.gvcf.gz>         Compressed gVCF input file (must be bgzipped and indexed)
+#   --sample_id STRING      Output file prefix (e.g., "sample123")
+#
+# Optional arguments:
+#   --genome_version STRING  Genome build: GRCh38 (default) or GRCh37
+#   --output_dir STRING      Directory to save output files (default: current directory)
+#   --GQ INT                 Minimum genotype quality (default: 20)
+#   --DP INT                 Minimum depth of coverage (default: 10)
 #
 # Dependencies:
-#   - bcftools must be available in the system path.
-#   - A genome-specific exclusion list: resources/Genome_Regions_data.tsv
-#     (should contain GRCh38 and/or GRCh37 region names to exclude from CNV inference)
+#   - bcftools must be installed and in the system PATH
+#   - Exclusion list: resources/Genome_Regions_data_<genome_version>.tsv
 #
-# Example usage:
-#   perl extract_baf_lrr.pl sample.gvcf.gz --sample_id sample_output --genome_version GRCh38
+# Example:
+#   perl fromgVCFToSignalIntensity.pl sample.gvcf.gz \
+#     --sample_id sample123 \
+#     --genome_version GRCh38 \
+#     --output_dir results/ \
+#     --GQ 20 \
+#     --DP 10
 # ------------------------------------------
 
 
@@ -41,16 +54,22 @@ my $script_dir  = dirname(abs_path($0)); # directory containing the script
 # Command-line variable: --sample_id specifies the output file prefix
 my $sample_id;
 my $genome_version = "GRCh38";  # default value
+my $GQ = "20";  # default value
+my $DP = "10";  # default value
+my $output_dir = ".";  # default: current directory
 
 # Parse options: --sample_id and --genome_version
 GetOptions(
     'sample_id=s'        => \$sample_id,
     'genome_version=s' => \$genome_version,
-) or die "Usage: perl script.pl input.gvcf.gz --sample_id outputprefix [--genome_version GRCh37|GRCh38]\n";
+    'output_dir=s' => \$output_dir,
+    'GQ=s' => \$GQ,
+    'DP=s' => \$DP,
+) or die "Usage: perl script.pl input.gvcf.gz --sample_id sample_id [--output_dir output_dir] [--genome_version GRCh37|GRCh38] [--GQ INT] [--DP INT]\n";
 
 # Ensure one input file and --sample_id provided
 @ARGV == 1 && $sample_id
-  or die "Usage: perl script.pl input.gvcf.gz --sample_id outputprefix [--genome_version GRCh37|GRCh38]\n";
+  or die "Usage: perl script.pl input.gvcf.gz --sample_id sample_id [--output_dir output_dir] [--genome_version GRCh37|GRCh38]\n";
 
 # Input gVCF file
 my $input_gvcf = $ARGV[0];
@@ -59,10 +78,10 @@ my $input_gvcf = $ARGV[0];
 my $meancov;
 
 # Step 1: Extract SNPs and calculate BAF
-readVariantInfo("$sample_id.snp_metrics.tsv");
+readVariantInfo("$output_dir/$sample_id.snp_metrics.tsv");
 
 # Step 2: Compute Log R Ratio and generate final report
-addLRRBAF("$sample_id.snp_metrics.tsv", "$sample_id.baf_lrr.tsv", $meancov, $sample_id);
+addLRRBAF("$output_dir/$sample_id.snp_metrics.tsv", "$output_dir/$sample_id.baf_lrr.tsv", $meancov, $sample_id, $output_dir);
 
 # ===================================================
 # FUNCTION: Extract SNPs and compute BAF
@@ -73,8 +92,8 @@ sub readVariantInfo {
 
     # Build bcftools pipeline:
     my $command = "bcftools view -m3 -M3 -V indels $input_gvcf | " .               # Keep only biallelic SNPs
-                  "bcftools filter -e 'format/GQ<20|format/DP<10' | " .            # Filter out low-quality genotypes
-                  "bcftools view -T ^<(grep \"$genome_version\" $script_dir/resources/Genome_Regions_data.tsv)  | " .        # Exclude known problematic regions
+                  "bcftools filter -e 'format/GQ<$GQ|format/DP<$DP' | " .            # Filter out low-quality genotypes
+                  "bcftools view -T ^$script_dir/resources/Genome_Regions_data_${genome_version}.bed  | " .        # Exclude known problematic regions
                   "bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO[\t%GT\t%AD\t%DP]\n' |";
 
     # Print the command for debugging
@@ -138,7 +157,7 @@ sub readVariantInfo {
 # Output: <prefix>.baf_lrr.tsv (PennCNV and QuantiSNP compatible)
 # ===================================================
 sub addLRRBAF {
-    my ($readinfile, $readoutfile, $meancov, $prefix) = @_;
+    my ($readinfile, $readoutfile, $meancov, $sample_id, $output_dir) = @_;
 
     # Fallback if mean coverage was not calculated
     $meancov ||= 30;
@@ -153,7 +172,7 @@ sub addLRRBAF {
     /^Name\tCoverage/ or die "Error: invalid header in $readinfile: <$_>\n";
 
     # Write final header in PennCNV-compatible format
-    print OUT "Name\tChr\tPosition\t$prefix.Log R Ratio\t$prefix.B Allele Freq\n";
+    print OUT "Name\tChr\tPosition\t$sample_id.Log R Ratio\t$sample_id.B Allele Freq\n";
 
     # Read each line of SNP data
     while (<IN>) {

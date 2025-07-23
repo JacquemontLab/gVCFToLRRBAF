@@ -104,6 +104,26 @@ cat centromere_${genome_version}.tsv telomere_${genome_version}.tsv | sort -k1,1
 
 
 
+## Problematic Region
+
+Problematic_GRCh38.tsv from :
+https://genome.ucsc.edu/cgi-bin/hgTables?hgsid=2763451842_9nXejNOmv3oAIqSDNs99CqacdGPH&clade=mammal&org=Human&db=hg38&hgta_group=allTracks&hgta_track=problematic&hgta_table=comments&hgta_regionType=genome&position=chr7%3A155%2C799%2C529-155%2C812%2C871&hgta_outputType=primaryTable&hgta_outFileName=Problematic_GRCh38.tsv
+
+Considering Tables UCSC Unusual Regions, ENCODE Blacklist V2, GRC Exclusions.
+
+For GRCh37.tsv Tables : UCSC Unusual Regions, ENCODE Blacklist V2, all GIAB and all NCBI zone proposed.
+https://genome.ucsc.edu/cgi-bin/hgTables?hgsid=2763451842_9nXejNOmv3oAIqSDNs99CqacdGPH&clade=mammal&org=Human&db=hg19&hgta_group=allTracks&hgta_track=problematic&hgta_table=filterSSE&hgta_regionType=genome&position=chr7%3A155%2C592%2C223-155%2C605%2C565&hgta_outputType=primaryTable&hgta_outFileName=problematic_GRCh37.tsv
 
 
+After downloading every tables :
 
+for f in *38.tsv; do tail -n +2 "$f"; done | cut -f1-3 | awk -F'\t' -v OFS='\t' '{print $0, "problematic_regions", "GRCh38"}' > Problematic_GRCh38_regions.tsv
+
+for f in *37.tsv; do tail -n +2 "$f"; done | cut -f1-3 | awk -F'\t' -v OFS='\t' '{print $0, "problematic_regions", "GRCh37"}' > Problematic_GRCh37_regions.tsv
+
+
+## One file per genome version for Region to remove
+
+### Extract lines with GRCh37 or GRCh38 but exclude lines containing PAR or XTR
+grep GRCh37 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh37.tsv
+grep GRCh38 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh38.tsv
