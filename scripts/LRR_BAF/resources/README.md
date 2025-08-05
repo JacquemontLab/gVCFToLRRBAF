@@ -125,5 +125,5 @@ for f in *37.tsv; do tail -n +2 "$f"; done | cut -f1-3 | awk -F'\t' -v OFS='\t' 
 ## One file per genome version for Region to remove
 
 ### Extract lines with GRCh37 or GRCh38 but exclude lines containing PAR or XTR
-grep GRCh37 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh37.tsv
-grep GRCh38 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh38.tsv
+grep GRCh37 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh37.bed
+grep GRCh38 Genome_Regions_data.tsv | grep -v -e PAR -e XTR > Genome_Regions_data_GRCh38.bed
