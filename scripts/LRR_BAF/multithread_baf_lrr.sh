@@ -8,14 +8,18 @@ export LC_ALL=en_US.UTF-8
 # Batch parallel CNV caller with cpu managment. Relies on cnv_caling.sh 
 #======================================================================
 usage() {
-  echo "Usage: $0 --batch_list FILE"
+  echo "Usage: $0 --batch_list FILE --output_dir PATH"
   echo ""
   echo "Required options:"
-  echo "  --batch_list   FILE    Text file with one file path per line"
+  echo "  --batch_list   FILE    TSV file with two columns per line:"
+  echo "                         1) Sample ID"
+  echo "                         2) Path to the gVCF file"
   echo "  --output_dir   PATH    Path to the output directory"
   echo "  --help                 Show this help message and exit"
   exit 1
 }
+# Get the absolute path of the script
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 
 #Parse Options
 while [[ $# -gt 0 ]]; do
@@ -79,7 +83,7 @@ cat "$batch_list" | parallel -j "$cpus" --colsep '\t' --eta --line-buffer '
   sample={1}
   gvcf={2}
   echo "🔄 Processing $sample"
-  perl "/home/flben/projects/rrg-jacquese/flben/WGS_pipeline/scripts/LRR_BAF/fromgVCFToSignalIntensity.pl" "$gvcf" \
+  perl "$SCRIPT_DIR/fromgVCFToSignalIntensity.pl" "$gvcf" \
     --sample_id "$sample" \
     --output_dir "$output_dir" \
     --genome_version "GRCh38"
