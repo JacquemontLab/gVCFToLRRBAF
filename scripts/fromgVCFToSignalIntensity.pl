@@ -9,7 +9,7 @@ use Getopt::Long; # Module to parse command-line options (like --sample_id)
 #
 # Purpose:
 #   Processes a compressed gVCF file (.gvcf.gz) to:
-#     1. Extract biallelic SNPs with adequate coverage and quality
+#     1. Extract SNPs and ref/ref positions present in the BIM with adequate coverage and quality
 #     2. Calculate per-SNP metrics: 
 #        - Coverage (DP)
 #        - B Allele Count (BAC)
@@ -42,7 +42,8 @@ use Getopt::Long; # Module to parse command-line options (like --sample_id)
 #     --genome_version GRCh38 \
 #     --output_dir results/ \
 #     --GQ 20 \
-#     --DP 10
+#     --DP 10 \
+#     --bim .bimfile
 # ------------------------------------------
 
 
@@ -57,6 +58,7 @@ my $genome_version = "GRCh38";  # default value
 my $GQ = "20";  # default value
 my $DP = "10";  # default value
 my $output_dir = ".";  # default: current directory
+my $bim_file;  #optional
 
 # Parse options: --sample_id and --genome_version
 GetOptions(
@@ -65,6 +67,7 @@ GetOptions(
     'output_dir=s' => \$output_dir,
     'GQ=s' => \$GQ,
     'DP=s' => \$DP,
+    'bim=s' => \$bim_file,  # <-- new optional
 ) or die "Usage: perl script.pl input.gvcf.gz --sample_id sample_id [--output_dir output_dir] [--genome_version GRCh37|GRCh38] [--GQ INT] [--DP INT]\n";
 
 # Ensure one input file and --sample_id provided
@@ -74,6 +77,26 @@ GetOptions(
 # Input gVCF file
 my $input_gvcf = $ARGV[0];
 
+# ----- Build a set of (chr,pos) to keep if --bim is provided -----
+my %keep;   # keys: "chrN\tPOS", e.g. "chr1\t10473"
+if (defined $bim_file && length $bim_file) {
+    open my $BIM, "<", $bim_file or die "Error: cannot read --bim $bim_file: $!\n";
+    while (<$BIM>) {
+        chomp;
+        next if $_ eq "";
+        my @f = split /\t/;          # BIM columns: CHR  ID  CM  POS ...
+        next unless @f >= 4;
+        my ($bchr, $bpos) = ($f[0], $f[3]);
+
+        # normalize to WITH 'chr' (avoid double 'chr')
+        $bchr =~ s/^chr//i;          # strip any existing 'chr' first
+        $bchr = "chr$bchr";
+
+        $keep{"$bchr\t$bpos"} = 1;
+    }
+    close $BIM;
+
+}
 # Global variable to store the mean coverage across SNPs
 my $meancov;
 
@@ -91,13 +114,10 @@ sub readVariantInfo {
     my ($readoutfile) = @_;
 
     # Build bcftools pipeline:
-    my $command = "bcftools view -m3 -M3 -V indels $input_gvcf | " .               # Keep only biallelic SNPs
+    my $command = "bcftools view $input_gvcf | " .                                    # Toutes positions (SNV + ref/ref) — le BIM filtre en aval
                   "bcftools filter -e 'format/GQ<$GQ|format/DP<$DP' | " .            # Filter out low-quality genotypes
                   "bcftools view -T ^$script_dir/resources/Genome_Regions_data_${genome_version}.bed  | " .        # Exclude known problematic regions
                   "bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO[\t%GT\t%AD\t%DP]\n' |";
-
-    # Print the command for debugging
-    print STDERR "DEBUG: Running command:\n$command\n";
 
     # Initialize counters
     my ($countsite, $countcov, $countsnp) = (0, 0, 0);
@@ -117,6 +137,14 @@ sub readVariantInfo {
 
         # Split the tab-delimited fields
         my ($chr, $pos, $id, $ref, $alt, $qual, $filter, $info, $GT, $AD, $DP) = split /\t/;
+        
+        # BIM whitelist: keep only positions present in the BIM set (WITH 'chr')
+        if (%keep) {
+            my $chr_norm = $chr;
+            $chr_norm =~ s/^chr//i;      # enlève un éventuel 'chr' en tête
+            $chr_norm = "chr$chr_norm";  # remet exactement un seul 'chr'
+            next unless exists $keep{"$chr_norm\t$pos"};  # si absent du BIM -> on saute la ligne
+        }
 
         # Skip entries with missing depth
         next if $DP eq ".";
@@ -125,17 +153,13 @@ sub readVariantInfo {
         $countsite++;
         $countcov += $cov;
 
-        # Skip entries without AD field
-        next if $AD eq ".";
-
-        # AD format: ref_count, alt_count, nonref_count
-        my ($AREF, $AALT, $NONREF) = split /,/, $AD;
-
-        # Use alt_count as BAC (B Allele Count)
-        my $bac = ($AALT ne ".") ? $AALT : next;
-
-        # Compute B Allele Frequency
-        my $baf = $bac / $cov;
+        # Pour les positions ref/ref, AD peut être absent → BAF = 0 (attendu)
+        my ($bac, $baf) = (0, 0);
+        if ($AD ne ".") {
+            my ($AREF, $AALT) = split /,/, $AD;
+            $bac = ($AALT && $AALT ne ".") ? $AALT : 0;
+            $baf = $bac / $cov;
+        }
 
         # Format position name: chr:start-end
         my $region = "$chr:$pos-$pos";
@@ -147,7 +171,7 @@ sub readVariantInfo {
     }
 
     # Compute mean coverage
-    $meancov = $countcov / $countsite;
+    $meancov = $countsite > 0 ? $countcov / $countsite : 30;
 
     print STDERR "NOTICE: Processed $countsite sites ($countsnp valid SNPs), mean coverage = $meancov\n";
 }

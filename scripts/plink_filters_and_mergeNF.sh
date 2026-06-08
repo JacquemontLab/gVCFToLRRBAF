@@ -3,7 +3,7 @@
 ##########################################################################################
 #*****************************************************************************************
 #
-# Script: filter_merge_missing.sh
+# Script: plink_filters_and_mergeNF.sh
 # Author: Mame Seynabou Diop
 #
 # Description:
@@ -24,28 +24,27 @@
 #   MAF=0.001     # Minor allele frequency threshold (default)
 #
 # Usage:
-#   ./filter_merge_missing.sh <input_bfile_dir> <output_dir> [additional plink2 options]
+#   ./plink_filters_and_mergeNF.sh <input_bfile_dir> <output_dir> [additional plink2 options]
 #
 # Example:
-#   ./filter_merge_missing.sh data/genos output/ --geno 0.02 --mind 0.02 --hwe 1e-5 --maf 0.005
+#   ./plink_filters_and_mergeNF.sh bfiles . --geno 0.02 --mind 0.02 --hwe 1e-5 --maf 0.005
 #
 #*****************************************************************************************
 ##########################################################################################
 
-
 # ----------------------------- Argument checks ------------------------------------
 
 if [[ $# -lt 2 ]]; then
-    echo "Usage: $0 <input_bfile_prefix> <output_dir> [additional plink2 options]"
+    echo "Usage: $0 <input_bfile_dir> <output_dir> [additional plink2 options]"
     echo ""
     echo "Example:"
-    echo "  $0 data/genos/geno output/ --geno 0.05 --mind 0.05 --hwe 1e-6 --maf 0.001"
+    echo "  $0 bfiles . --geno 0.05 --mind 0.05 --hwe 1e-6 --maf 0.001"
     exit 1
 fi
 
 inputDir="$1"
-outputDir="$2"
-shift 2  # Remove inputPrefix and outputDir from $@
+outputDir=$PWD
+shift 2  # Remove inputDir and outputDir from $@ so $@ holds only PLINK options
 
 # Check input dir
 if [[ ! -d "$inputDir" ]]; then
@@ -53,26 +52,17 @@ if [[ ! -d "$inputDir" ]]; then
     exit 1
 fi
 
-# Create output dir if needed
-mkdir -p "$outputDir"
-
 
 # ----------------------------- Find bfiles ----------------------------------------
-# Get sorted list of all .bed files
 bed_files=($(find "$inputDir" -maxdepth 1 -name "*.bed" | sort))
 
-
-# Use the first .bed file as the base
-base_bed="${bed_files[0]}"
-base_prefix="${base_bed%.bed}"
 
 # Load plink2 if needed
 if ! command -v plink2 >/dev/null 2>&1; then
     echo "'plink2' not found — loading modules..."
-    module load StdEnv/2020
-    module load plink/2.00a3.6
+    module load StdEnv/2023
+    module load plink/2.00a5.8
 
-    # Check again
     if ! command -v plink2 >/dev/null 2>&1; then
         echo "Error: plink2 is still not available after loading modules." >&2
         exit 1
@@ -88,15 +78,11 @@ echo "💻 Running with $cpus cores"
 
 # Get memory safely: prefer SLURM allocated memory
 if [[ -n "$SLURM_MEM_PER_NODE" ]]; then
-  # Use 90% of SLURM allocated memory (as safety margin)
   plink_mem=$(( SLURM_MEM_PER_NODE * 90 / 100 ))
   echo "Detected SLURM memory: $SLURM_MEM_PER_NODE MB"
 else
-  # Fallback to checking system memory
   read total_mem used_mem free_mem shared_mem buff_cache available_mem <<< $(free -m | awk '/Mem:/ {print $2, $3, $4, $5, $6, $7}')
   echo "Available memory (MB): $available_mem"
-
-  # Use 90% of available memory
   plink_mem=$(( available_mem * 90 / 100 ))
 fi
 
@@ -134,7 +120,6 @@ done
 list_file="list.txt"
 > "$list_file"
 
-
 skip_first=true
 for bed_file in "$filteredDir"/*.bed; do
   base_name=$(basename "$bed_file" .bed)
@@ -156,7 +141,7 @@ plink2 \
   --memory "$plink_mem" \
   --pmerge-list list.txt \
   --make-bed \
-  --chr 1-22 \
+  --chr 1-22  \
   --out $mergedDir/merged_dataset
 
 
@@ -168,5 +153,38 @@ plink2 \
   --missing \
   --out $statsDir/merged_dataset.missing
 
+# Step 5a: LD-prune before kinship estimation (select common, independent SNPs)
+plink2 \
+  --bfile $mergedDir/merged_dataset \
+  --threads "$cpus" \
+  --memory "$plink_mem" \
+  --maf 0.05 --geno 0.01 \
+  --indep-pairwise 1000 200 0.1 \
+  --out $statsDir/prune
 
-rm -rf list.txt "$filteredDir"
+
+# Step 5b: Create a pruned dataset
+plink2 \
+  --bfile "$mergedDir/merged_dataset" \
+  --threads "$cpus" \
+  --memory "$plink_mem" \
+  --extract "$statsDir/prune.prune.in" \
+  --make-bed \
+  --out "$mergedDir/merged_dataset.pruned"
+
+# Step 5c: Kinship estimation (KING) on autosomes, pruned dataset
+plink2 \
+  --bfile "$mergedDir/merged_dataset.pruned" \
+  --threads "$cpus" \
+  --memory "$plink_mem" \
+  --autosome \
+  --make-king-table \
+  --out "$statsDir/merged_dataset_unrelated"
+
+
+# ----------------------------- Cleanup --------------------------------------------
+# BUG5 FIX: était "rm -rf $inputDir" ce qui détruisait le répertoire d'entrée stagé
+# par Nextflow (les .bed/.bim/.fam d'origine). On supprime uniquement les fichiers
+# intermédiaires créés par ce script (filtered_chr/ et le fichier list.txt).
+echo "Cleaning up temporary PLINK files..."
+rm -rf "$filteredDir" list.txt

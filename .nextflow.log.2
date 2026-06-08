@@ -1,0 +1,156 @@
+May-25 10:10:24.023 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf -resume --inputDirgVCF /lustre09/project/6008022/mame20/test_gvcf --topN 10 --gvcf_batch_size 5 --n_batches 3 --outputDir /lustre09/project/6008022/mame20/WGS_pipeline/test_results -with-report
+May-25 10:10:24.376 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.10.2
+May-25 10:10:24.635 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/mame20/.nextflow/plugins; core-plugins: nf-amazon@3.4.2,nf-azure@1.20.2,nf-cloudcache@0.5.0,nf-codecommit@0.5.0,nf-console@1.3.0,nf-google@1.23.3,nf-k8s@1.2.2,nf-tower@1.17.3,nf-wave@1.16.1
+May-25 10:10:24.671 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-25 10:10:24.672 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-25 10:10:24.676 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+May-25 10:10:24.751 [main] DEBUG nextflow.util.RetryConfig - Missing nextflow session - using default retry config
+May-25 10:10:25.237 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-25 10:10:25.313 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /lustre09/project/6008022/mame20/WGS_pipeline/nextflow.config
+May-25 10:10:25.315 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre09/project/6008022/mame20/WGS_pipeline/nextflow.config
+May-25 10:10:25.346 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+May-25 10:10:26.268 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-25 10:10:26.268 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+May-25 10:10:26.287 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/mame20/.nextflow/secrets/store.json
+May-25 10:10:26.292 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6fc1020a] - activable => nextflow.secret.LocalSecretsProvider@6fc1020a
+May-25 10:10:26.310 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+May-25 10:10:26.340 [main] DEBUG nextflow.cli.CmdRun - Launching `main.nf` [grave_meitner] DSL2 - revision: 6077216906
+May-25 10:10:26.412 [main] DEBUG nextflow.Session - Session UUID: 17e87f9c-25a3-49e6-8a78-37bc38f332d3
+May-25 10:10:26.413 [main] DEBUG nextflow.Session - Run name: grave_meitner
+May-25 10:10:26.414 [main] DEBUG nextflow.Session - Executor pool size: 2
+May-25 10:10:26.422 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+May-25 10:10:26.426 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=10; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+May-25 10:10:26.458 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.10.2 build 10555
+  Created: 28-11-2025 19:24 UTC (14:24 EDT)
+  System: Linux 5.14.0-611.55.1.el9_7.x86_64
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.1+12-29
+  Encoding: UTF-8 (UTF-8)
+  Process: 3835539@rc32519 [10.83.105.19]
+  CPUs: 1 - Mem: 755.4 GB (591.9 GB) - Swap: 0 (0)
+May-25 10:10:26.775 [main] DEBUG nextflow.Session - Work-dir: /lustre09/project/6008022/mame20/WGS_pipeline/work [lustre]
+May-25 10:10:26.777 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /lustre09/project/6008022/mame20/WGS_pipeline/bin
+May-25 10:10:26.790 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-25 10:10:26.804 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+May-25 10:10:26.807 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+May-25 10:10:26.855 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-25 10:10:26.870 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 2; maxThreads: 1000
+May-25 10:10:27.362 [main] DEBUG nextflow.Session - Session start
+May-25 10:10:28.085 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-25 10:10:28.287 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:pVCF_to_plink` matches process pVCF_to_plink
+May-25 10:10:28.300 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.300 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.318 [main] DEBUG nextflow.executor.Executor - [warm up] executor > slurm
+May-25 10:10:28.327 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'slurm' > capacity: 100; pollInterval: 5s; dumpInterval: 5m 
+May-25 10:10:28.328 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: slurm)
+May-25 10:10:28.329 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 60 seconds
+May-25 10:10:28.332 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'slurm' > queue-stat-interval: 1m
+May-25 10:10:28.633 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'pVCF_to_plink': maxForks=0; fair=false; array=0
+May-25 10:10:28.686 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:plink_filter_merge` matches process plink_filter_merge
+May-25 10:10:28.689 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.689 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.690 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'plink_filter_merge': maxForks=0; fair=false; array=0
+May-25 10:10:28.697 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:select_unrel_topN` matches process select_unrel_topN
+May-25 10:10:28.700 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.700 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.701 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'select_unrel_topN': maxForks=0; fair=false; array=0
+May-25 10:10:28.724 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:gvcf_to_signalintensity` matches process gvcf_to_signalintensity
+May-25 10:10:28.726 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.726 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.727 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'gvcf_to_signalintensity': maxForks=0; fair=false; array=0
+May-25 10:10:28.735 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:split_iids` matches process split_iids
+May-25 10:10:28.737 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.738 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.738 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'split_iids': maxForks=0; fair=false; array=0
+May-25 10:10:28.750 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:pfb_partial` matches process pfb_partial
+May-25 10:10:28.752 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.752 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.753 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'pfb_partial': maxForks=0; fair=false; array=0
+May-25 10:10:28.762 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:pfb_reduce` matches process pfb_reduce
+May-25 10:10:28.765 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.765 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.766 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'pfb_reduce': maxForks=0; fair=false; array=0
+May-25 10:10:28.774 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:filter_baf_lrr_files` matches process filter_baf_lrr_files
+May-25 10:10:28.776 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 10:10:28.776 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 10:10:28.777 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'filter_baf_lrr_files': maxForks=0; fair=false; array=0
+May-25 10:10:28.779 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: gvcf_to_signalintensity, plink_filter_merge, pVCF_to_plink, pfb_reduce, filter_baf_lrr_files, split_iids, select_unrel_topN, pfb_partial
+May-25 10:10:28.784 [main] DEBUG nextflow.Session - Igniting dataflow network (10)
+May-25 10:10:28.791 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pVCF_to_plink
+May-25 10:10:28.792 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > plink_filter_merge
+May-25 10:10:28.792 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > select_unrel_topN
+May-25 10:10:28.802 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /home/mame20/links/projects/rrg-jacquese/LAB_WORKSPACE/RAW_DATA/Genetic/SPARK/iWGS_v1_gVCF/pvcf/; pattern: *.vcf.gz; options: [checkIfExists:true]
+May-25 10:10:28.809 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > gvcf_to_signalintensity
+May-25 10:10:28.810 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > split_iids
+May-25 10:10:28.810 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pfb_partial
+May-25 10:10:28.810 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pfb_reduce
+May-25 10:10:28.810 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > filter_baf_lrr_files
+May-25 10:10:28.814 [PathVisitor-2] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /lustre09/project/6008022/mame20/test_gvcf/; pattern: *.gvcf.gz; options: [checkIfExists:true]
+May-25 10:10:28.816 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_1a8a7f59b1972522: /lustre09/project/6008022/mame20/WGS_pipeline/main.nf
+May-25 10:10:28.816 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-25 10:10:28.816 [main] DEBUG nextflow.Session - Session await
+May-25 10:10:29.285 [Actor Thread 1] INFO  nextflow.processor.TaskProcessor - [a1/d8ac8f] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr1.vcf.gz)
+May-25 10:10:29.437 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [ea/e47636] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr13.vcf.gz)
+May-25 10:10:29.650 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [2b/89a99a] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr11.vcf.gz)
+May-25 10:10:29.744 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [d1/a08047] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr3.vcf.gz)
+May-25 10:10:29.964 [Actor Thread 1] INFO  nextflow.processor.TaskProcessor - [7b/461579] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr8.vcf.gz)
+May-25 10:10:29.986 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [89/86071f] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr17.vcf.gz)
+May-25 10:10:30.612 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [9c/87b2b2] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr5.vcf.gz)
+May-25 10:10:30.664 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [09/441275] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr20.vcf.gz)
+May-25 10:10:30.856 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [d5/6b51f8] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr7.vcf.gz)
+May-25 10:10:30.898 [Actor Thread 1] INFO  nextflow.processor.TaskProcessor - [77/8c872d] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr18.vcf.gz)
+May-25 10:10:31.119 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [ca/e527e9] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr15.vcf.gz)
+May-25 10:10:31.169 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [22/68d562] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr22.vcf.gz)
+May-25 10:10:31.350 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [2c/b9c5ea] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr21.vcf.gz)
+May-25 10:10:31.479 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [e8/823ee1] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr4.vcf.gz)
+May-25 10:10:31.662 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [ff/50ff42] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr16.vcf.gz)
+May-25 10:10:31.793 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [53/cd13d4] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr9.vcf.gz)
+May-25 10:10:31.890 [Actor Thread 1] INFO  nextflow.processor.TaskProcessor - [6b/683fce] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr14.vcf.gz)
+May-25 10:10:32.023 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [c2/5e516a] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr6.vcf.gz)
+May-25 10:10:32.095 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [84/8a48a2] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr19.vcf.gz)
+May-25 10:10:32.268 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [d0/e34734] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr12.vcf.gz)
+May-25 10:10:32.291 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [1e/6a1a80] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr2.vcf.gz)
+May-25 10:10:32.523 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [e3/6eff25] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr10.vcf.gz)
+May-25 10:10:32.598 [Actor Thread 1] INFO  nextflow.processor.TaskProcessor - [5e/70aff8] Cached process > plink_filter_merge (plink_filter_merge)
+May-25 10:10:32.745 [Actor Thread 8] INFO  nextflow.processor.TaskProcessor - [19/69f334] Cached process > select_unrel_topN (select_unrel_topN (topN=10))
+May-25 10:10:33.818 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_73582512) > jobId: 13162493; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c2/b41a6428e1ec3a2b0346ba3e4264b1
+May-25 10:10:33.819 [Task submitter] INFO  nextflow.Session - [c2/b41a64] Submitted process > gvcf_to_signalintensity (gvcf_batch_73582512)
+May-25 10:10:37.727 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_ef475b79) > jobId: 13162495; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/f3/e785158f6c9b539eabd124222de469
+May-25 10:10:37.727 [Task submitter] INFO  nextflow.Session - [f3/e78515] Submitted process > gvcf_to_signalintensity (gvcf_batch_ef475b79)
+May-25 10:13:33.348 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13162493; id: 25; name: gvcf_to_signalintensity (gvcf_batch_73582512); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c2/b41a6428e1ec3a2b0346ba3e4264b1 started: 1779718283339; exited: 2026-05-25T14:13:32Z; ]
+May-25 10:13:33.352 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=10; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+May-25 10:13:43.346 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13162495; id: 24; name: gvcf_to_signalintensity (gvcf_batch_ef475b79); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/f3/e785158f6c9b539eabd124222de469 started: 1779718283343; exited: 2026-05-25T14:13:39Z; ]
+May-25 10:13:43.440 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process split_iids (split_iids (n_batches=3)) > jobId: 13162569; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3f/3912d8d61b47a1334c48e75f805d0e
+May-25 10:13:43.440 [Task submitter] INFO  nextflow.Session - [3f/3912d8] Submitted process > split_iids (split_iids (n_batches=3))
+May-25 10:14:28.352 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13162569; id: 27; name: split_iids (split_iids (n_batches=3)); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3f/3912d8d61b47a1334c48e75f805d0e started: 1779718468348; exited: 2026-05-25T14:14:26Z; ]
+May-25 10:14:28.961 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process pfb_partial (pfb_partial(iid_batch_001)) > jobId: 13162616; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/20/d11c428513aa6e7c0862c0eef1f7cc
+May-25 10:14:28.961 [Task submitter] INFO  nextflow.Session - [20/d11c42] Submitted process > pfb_partial (pfb_partial(iid_batch_001))
+May-25 10:14:34.518 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process pfb_partial (pfb_partial(iid_batch_000)) > jobId: 13162617; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/d1/6b7a1a47559b075588271cbd73bce0
+May-25 10:14:34.518 [Task submitter] INFO  nextflow.Session - [d1/6b7a1a] Submitted process > pfb_partial (pfb_partial(iid_batch_000))
+May-25 10:14:39.441 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process pfb_partial (pfb_partial(iid_batch_002)) > jobId: 13162619; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/1f/71dbb28e33a734e946f0a9327e8097
+May-25 10:14:39.441 [Task submitter] INFO  nextflow.Session - [1f/71dbb2] Submitted process > pfb_partial (pfb_partial(iid_batch_002))
+May-25 10:15:33.352 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13162616; id: 29; name: pfb_partial (pfb_partial(iid_batch_001)); status: SUBMITTED; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/20/d11c428513aa6e7c0862c0eef1f7cc started: -; exited: -; ]
+~> TaskHandler[jobId: 13162617; id: 28; name: pfb_partial (pfb_partial(iid_batch_000)); status: SUBMITTED; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/d1/6b7a1a47559b075588271cbd73bce0 started: -; exited: -; ]
+~> TaskHandler[jobId: 13162619; id: 30; name: pfb_partial (pfb_partial(iid_batch_002)); status: SUBMITTED; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/1f/71dbb28e33a734e946f0a9327e8097 started: -; exited: -; ]
+May-25 10:17:33.367 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13162617; id: 28; name: pfb_partial (pfb_partial(iid_batch_000)); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/d1/6b7a1a47559b075588271cbd73bce0 started: 1779718653363; exited: 2026-05-25T14:17:32Z; ]
+May-25 10:17:33.371 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13162619; id: 30; name: pfb_partial (pfb_partial(iid_batch_002)); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/1f/71dbb28e33a734e946f0a9327e8097 started: 1779718653368; exited: 2026-05-25T14:17:32Z; ]
+May-25 10:17:38.363 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13162616; id: 29; name: pfb_partial (pfb_partial(iid_batch_001)); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/20/d11c428513aa6e7c0862c0eef1f7cc started: 1779718653361; exited: 2026-05-25T14:17:33Z; ]
+May-25 10:17:38.456 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process pfb_reduce (pfb_reduce) > jobId: 13162668; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/df/f322dd095d21a48cc9bd4e7d282683
+May-25 10:17:38.456 [Task submitter] INFO  nextflow.Session - [df/f322dd] Submitted process > pfb_reduce (pfb_reduce)
+May-25 10:20:33.367 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13162668; id: 31; name: pfb_reduce (pfb_reduce); status: SUBMITTED; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/df/f322dd095d21a48cc9bd4e7d282683 started: -; exited: -; ]
+May-25 10:20:38.370 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13162668; id: 31; name: pfb_reduce (pfb_reduce); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/df/f322dd095d21a48cc9bd4e7d282683 started: 1779718833367; exited: 2026-05-25T14:20:37Z; ]
+May-25 10:20:38.545 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process filter_baf_lrr_files (filter_baf_lrr_batch) > jobId: 13163348; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/49/032dc793c44b71399fcd1c442b1071
+May-25 10:20:38.546 [Task submitter] INFO  nextflow.Session - [49/032dc7] Submitted process > filter_baf_lrr_files (filter_baf_lrr_batch)
+May-25 10:25:08.386 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13163348; id: 32; name: filter_baf_lrr_files (filter_baf_lrr_batch); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/49/032dc793c44b71399fcd1c442b1071 started: 1779719018380; exited: 2026-05-25T14:25:07Z; ]
+May-25 10:25:08.432 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-25 10:25:13.384 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: slurm) - terminating tasks monitor poll loop
+May-25 10:25:13.385 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-25 10:25:13.391 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+May-25 10:25:13.402 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=8; failedCount=0; ignoredCount=0; cachedCount=24; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=39m 36s; failedDuration=0ms; cachedDuration=6d 1h 34m 36s;loadCpus=0; loadMemory=0; peakRunning=3; peakCpus=16; peakMemory=128 GB; ]
+May-25 10:25:13.498 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+May-25 10:25:14.069 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-25 10:25:14.110 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+May-25 10:25:14.110 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

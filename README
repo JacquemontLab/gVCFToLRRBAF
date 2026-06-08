@@ -1,0 +1,184 @@
+# WGS CNV Pipeline
+
+A Nextflow DSL2 pipeline for generating Log R Ratio (LRR) and B Allele Frequency (BAF) signals from whole-genome sequencing (WGS) gVCF files, enabling copy number variant (CNV) detection with PennCNV.
+
+> **Publication in preparation.** Please contact the authors before using this pipeline in your own research.
+
+---
+
+## Overview
+
+This pipeline takes individual-level gVCF files and population-level pVCF files as input, computes per-sample LRR/BAF signal intensities at SNP positions, and outputs PFB-normalized BAF/LRR files ready for PennCNV-based CNV calling.
+
+```
+pVCF (chr1–22)  ──► PLINK merge & QC ──► Select unrelated samples
+gVCF (per sample) ──► BAF/LRR extraction ──► PFB estimation ──► Filtered BAF/LRR
+```
+
+### Key features
+
+- Fully parallelized on SLURM HPC clusters (tested on Compute Canada / Rorqual)
+- Processes thousands of samples efficiently via batched SLURM jobs
+- Supports DeepVariant-style gVCF format (GRCh38)
+- Automatic retry on memory/time limit failures
+
+---
+
+## Requirements
+
+### Software
+
+| Tool | Version tested | Purpose |
+|------|---------------|---------|
+| [Nextflow](https://www.nextflow.io/) | ≥ 23.10 | Workflow manager |
+| [PLINK2](https://www.cog-genomics.org/plink/2.0/) | 2.0 | Genotype filtering and merging |
+| [bcftools](https://samtools.github.io/bcftools/) | ≥ 1.17 | VCF processing |
+| [Perl](https://www.perl.org/) | ≥ 5.30 | `fromgVCFToSignalIntensity.pl` |
+| [GNU parallel](https://www.gnu.org/software/parallel/) | ≥ 20230522 | Parallel sample processing |
+| [Python](https://www.python.org/) | ≥ 3.10 | PFB computation |
+| [Polars](https://pola.rs/) | ≥ 1.0, < 1.23 | Dataframe operations |
+
+### Input files
+
+- **pVCF files**: one per chromosome (chr1–22), e.g. `cohort.deepvariant.chr1.vcf.gz`
+- **gVCF files**: one per sample, e.g. `SP0001234.gvcf.gz` — standard gVCF format including both variant and non-variant positions (compatible with DeepVariant, All of Us, and similar pipelines)
+- **Genome resources**: GRCh38 problematic regions BED file (included in `scripts/resources/`)
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/JacquemontLab/WGS_pipeline.git
+cd WGS_pipeline
+```
+
+---
+
+## Configuration
+
+Edit `nextflow.config` to set your input/output paths and cluster parameters:
+
+```groovy
+params {
+    inputDirpVCF      = "/path/to/pvcf_directory"      // pVCF files (chr1–22)
+    inputDirgVCF      = "/path/to/gvcf_directory"      // individual gVCF files
+    outputDir         = "/path/to/output_directory"
+    scriptDir         = "/path/to/WGS_pipeline/scripts"
+
+    topN              = 1000      // number of unrelated samples for PFB estimation
+    gvcf_batch_size   = 125       // samples per SLURM job (gVCF → BAF/LRR step)
+    filter_batch_size = 250       // samples per SLURM job (filtering step)
+    n_batches         = 20        // number of batches for PFB partial computation
+    polars_threads    = 4         // threads per pfb_partial job
+
+    PLINK_filter_options = "--geno 0.05 --mind 0.05 --hwe 1e-6 --maf 0.001"
+}
+```
+
+### SLURM configuration
+
+The default configuration targets Compute Canada clusters with the `rrg-jacquese` account. Adjust `clusterOptions` for your cluster:
+
+```groovy
+process {
+    clusterOptions = '--account=YOUR_ACCOUNT'
+}
+```
+
+---
+
+## Usage
+
+### On a SLURM cluster
+
+```bash
+sbatch --account=YOUR_ACCOUNT --time=24:00:00 --mem=4G --cpus-per-task=2 \
+  --wrap="module load nextflow && nextflow run main.nf -with-report"
+```
+
+### Resume a previous run
+
+```bash
+nextflow run main.nf -resume -with-report
+```
+
+### Override parameters at runtime
+
+```bash
+nextflow run main.nf \
+  --inputDirgVCF /path/to/gvcf \
+  --topN 500 \
+  --gvcf_batch_size 100 \
+  -resume
+```
+
+---
+
+## Pipeline steps
+
+| Step | Process | Description |
+|------|---------|-------------|
+| 1 | `pVCF_to_plink` | Convert pVCF (chr1–22, autosomes only) to PLINK binary format |
+| 2 | `plink_filter_merge` | Apply QC filters and merge chromosomes into a single dataset |
+| 3 | `select_unrel_topN` | Select top N unrelated samples (lowest missingness) for PFB estimation |
+| 4 | `gvcf_to_signalintensity` | Extract BAF/LRR signals from individual gVCF files (~125 samples/job) |
+| 5 | `split_iids` | Split selected sample IDs into batches for parallel PFB computation |
+| 6 | `pfb_partial` | Compute partial PFB statistics per batch of samples |
+| 7 | `pfb_reduce` | Aggregate partial PFBs into a final `PFB.tsv` file |
+| 8 | `filter_baf_lrr_files` | Filter BAF/LRR files using the final PFB (~250 samples/job) |
+
+---
+
+## Output
+
+```
+results/
+├── merged_dataset.bed / .bim / .fam     # merged PLINK dataset (autosomes)
+├── stats/
+│   ├── merged_dataset.missing.smiss    # per-sample missingness
+│   └── merged_dataset.missing.vmiss    # per-variant missingness
+├── keep_unrel_topN.iid.txt             # selected unrelated sample IDs
+├── LRR_BAF/
+│   └── <SAMPLE_ID>.baf_lrr.tsv        # raw BAF/LRR per sample
+├── PFB.tsv                             # population frequency of B allele
+└── LRR_BAF_filtered/
+    └── <SAMPLE_ID>_filtered.baf_lrr.tsv  # PFB-normalized BAF/LRR (PennCNV input)
+```
+
+---
+
+
+## Resource requirements (approximate)
+
+| Step | CPUs | Memory | Wall time |
+|------|------|--------|-----------|
+| pVCF_to_plink | 8 | 32 GB | 2h |
+| plink_filter_merge | 16 | 64 GB | 4h |
+| gvcf_to_signalintensity | 8 | 64 GB | 4h per batch |
+| pfb_partial | 4 | 32 GB | 1h per batch |
+| filter_baf_lrr_files | 2 | 4 GB | 1h per batch |
+
+Memory and time limits double automatically on retry (up to 3 attempts).
+
+---
+
+## Reference genome
+
+GRCh38. Problematic genomic regions used for filtering are included in:
+```
+scripts/resources/Genome_Regions_data_GRCh38.bed
+```
+
+---
+
+## Citation
+
+> Diop MS et al. *Manuscript in preparation.* Jacquemont Lab, Université de Montréal / CHU Sainte-Justine.
+
+---
+
+## Contact
+
+Mame Seynabou Diop — `mame.seynabou.diop@umontreal.ca`
+Jacquemont Lab — CHU Sainte-Justine Research Centre, Montréal, Canada

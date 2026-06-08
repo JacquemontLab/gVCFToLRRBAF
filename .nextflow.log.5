@@ -1,0 +1,711 @@
+May-25 00:04:25.529 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf -resume -with-report
+May-25 00:04:26.060 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.10.2
+May-25 00:04:26.121 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/mame20/.nextflow/plugins; core-plugins: nf-amazon@3.4.2,nf-azure@1.20.2,nf-cloudcache@0.5.0,nf-codecommit@0.5.0,nf-console@1.3.0,nf-google@1.23.3,nf-k8s@1.2.2,nf-tower@1.17.3,nf-wave@1.16.1
+May-25 00:04:26.149 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-25 00:04:26.150 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-25 00:04:26.153 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+May-25 00:04:26.247 [main] DEBUG nextflow.util.RetryConfig - Missing nextflow session - using default retry config
+May-25 00:04:26.445 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-25 00:04:26.526 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /lustre09/project/6008022/mame20/WGS_pipeline/nextflow.config
+May-25 00:04:26.528 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre09/project/6008022/mame20/WGS_pipeline/nextflow.config
+May-25 00:04:26.564 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+May-25 00:04:27.234 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-25 00:04:27.234 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+May-25 00:04:27.261 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/mame20/.nextflow/secrets/store.json
+May-25 00:04:27.264 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@708f018e] - activable => nextflow.secret.LocalSecretsProvider@708f018e
+May-25 00:04:27.282 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+May-25 00:04:27.295 [main] DEBUG nextflow.cli.CmdRun - Launching `main.nf` [pensive_sammet] DSL2 - revision: f206aeabff
+May-25 00:04:27.339 [main] DEBUG nextflow.Session - Session UUID: 833ec88f-6159-4b24-8325-95b2e0474667
+May-25 00:04:27.340 [main] DEBUG nextflow.Session - Run name: pensive_sammet
+May-25 00:04:27.340 [main] DEBUG nextflow.Session - Executor pool size: 2
+May-25 00:04:27.347 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+May-25 00:04:27.351 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=10; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+May-25 00:04:27.383 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.10.2 build 10555
+  Created: 28-11-2025 19:24 UTC (14:24 EDT)
+  System: Linux 5.14.0-611.49.1.el9_7.x86_64
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.1+12-29
+  Encoding: UTF-8 (UTF-8)
+  Process: 2536485@rc32502 [10.83.105.2]
+  CPUs: 1 - Mem: 755.4 GB (493.2 GB) - Swap: 0 (0)
+May-25 00:04:27.437 [main] DEBUG nextflow.Session - Work-dir: /lustre09/project/6008022/mame20/WGS_pipeline/work [lustre]
+May-25 00:04:27.438 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /lustre09/project/6008022/mame20/WGS_pipeline/bin
+May-25 00:04:27.445 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-25 00:04:27.452 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+May-25 00:04:27.454 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+May-25 00:04:27.482 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-25 00:04:27.489 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 2; maxThreads: 1000
+May-25 00:04:30.095 [main] DEBUG nextflow.Session - Session start
+May-25 00:04:30.770 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-25 00:04:30.960 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:pVCF_to_plink` matches process pVCF_to_plink
+May-25 00:04:30.972 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:30.972 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:30.985 [main] DEBUG nextflow.executor.Executor - [warm up] executor > slurm
+May-25 00:04:30.994 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'slurm' > capacity: 100; pollInterval: 5s; dumpInterval: 5m 
+May-25 00:04:31.138 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: slurm)
+May-25 00:04:31.139 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 60 seconds
+May-25 00:04:31.142 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'slurm' > queue-stat-interval: 1m
+May-25 00:04:31.166 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'pVCF_to_plink': maxForks=0; fair=false; array=0
+May-25 00:04:31.209 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:plink_filter_merge` matches process plink_filter_merge
+May-25 00:04:31.212 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:31.212 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:31.213 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'plink_filter_merge': maxForks=0; fair=false; array=0
+May-25 00:04:31.222 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:select_unrel_topN` matches process select_unrel_topN
+May-25 00:04:31.225 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:31.225 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:31.226 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'select_unrel_topN': maxForks=0; fair=false; array=0
+May-25 00:04:31.246 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:gvcf_to_signalintensity` matches process gvcf_to_signalintensity
+May-25 00:04:31.249 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:31.250 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:31.251 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'gvcf_to_signalintensity': maxForks=0; fair=false; array=0
+May-25 00:04:31.259 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:split_iids` matches process split_iids
+May-25 00:04:31.262 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:31.262 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:31.263 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'split_iids': maxForks=0; fair=false; array=0
+May-25 00:04:31.275 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:pfb_partial` matches process pfb_partial
+May-25 00:04:31.278 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:31.278 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:31.279 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'pfb_partial': maxForks=0; fair=false; array=0
+May-25 00:04:31.287 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:pfb_reduce` matches process pfb_reduce
+May-25 00:04:31.288 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:31.288 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:31.289 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'pfb_reduce': maxForks=0; fair=false; array=0
+May-25 00:04:31.304 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:filter_baf_lrr_files` matches process filter_baf_lrr_files
+May-25 00:04:31.306 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-25 00:04:31.306 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-25 00:04:31.307 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'filter_baf_lrr_files': maxForks=0; fair=false; array=0
+May-25 00:04:31.310 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: gvcf_to_signalintensity, plink_filter_merge, pVCF_to_plink, pfb_reduce, filter_baf_lrr_files, split_iids, select_unrel_topN, pfb_partial
+May-25 00:04:31.312 [main] DEBUG nextflow.Session - Igniting dataflow network (10)
+May-25 00:04:31.333 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pVCF_to_plink
+May-25 00:04:31.337 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /home/mame20/links/projects/rrg-jacquese/LAB_WORKSPACE/RAW_DATA/Genetic/SPARK/iWGS_v1_gVCF/pvcf/; pattern: *.vcf.gz; options: [checkIfExists:true]
+May-25 00:04:31.336 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > plink_filter_merge
+May-25 00:04:31.341 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > select_unrel_topN
+May-25 00:04:31.343 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > gvcf_to_signalintensity
+May-25 00:04:31.343 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > split_iids
+May-25 00:04:31.344 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pfb_partial
+May-25 00:04:31.344 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pfb_reduce
+May-25 00:04:31.344 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > filter_baf_lrr_files
+May-25 00:04:31.344 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_b399b37d4e7fc9c4: /lustre09/project/6008022/mame20/WGS_pipeline/main.nf
+May-25 00:04:31.345 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-25 00:04:31.345 [main] DEBUG nextflow.Session - Session await
+May-25 00:04:31.345 [PathVisitor-2] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /lustre09/project/6008022/LAB_WORKSPACE/STUDY_DIRECTORY/WGS_CNV_DETECTION/oldAnalysis/newAnalysisOn5760IndividualsRM/remaininggVCF/; pattern: *.gvcf.gz; options: [checkIfExists:true]
+May-25 00:04:32.793 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [b3/2bcd84] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr1.vcf.gz)
+May-25 00:04:33.178 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [9a/396988] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr11.vcf.gz)
+May-25 00:04:33.342 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [3d/c9820e] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr13.vcf.gz)
+May-25 00:04:33.996 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [4c/16aa82] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr3.vcf.gz)
+May-25 00:04:34.135 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [0e/6b9c63] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr8.vcf.gz)
+May-25 00:04:34.362 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [5d/877f3e] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr17.vcf.gz)
+May-25 00:04:34.448 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [41/b91bcd] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr5.vcf.gz)
+May-25 00:04:37.167 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [a5/59772b] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr20.vcf.gz)
+May-25 00:04:37.539 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [ec/3825a2] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr18.vcf.gz)
+May-25 00:04:37.958 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [56/57439e] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr7.vcf.gz)
+May-25 00:04:38.286 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [17/5f0504] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr15.vcf.gz)
+May-25 00:04:38.594 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [6d/438c81] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr22.vcf.gz)
+May-25 00:04:38.775 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [32/2fe917] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr21.vcf.gz)
+May-25 00:04:39.013 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [ab/147e8f] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr4.vcf.gz)
+May-25 00:04:39.334 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [eb/1e9544] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr9.vcf.gz)
+May-25 00:04:39.616 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [30/5272e5] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr14.vcf.gz)
+May-25 00:04:39.882 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [48/249c07] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr16.vcf.gz)
+May-25 00:04:40.235 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [91/1e1b48] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr19.vcf.gz)
+May-25 00:04:40.408 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [82/cba873] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr6.vcf.gz)
+May-25 00:04:40.778 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [4d/cb21e3] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr2.vcf.gz)
+May-25 00:04:41.518 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [a5/774e2c] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr12.vcf.gz)
+May-25 00:04:41.794 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [fc/68e351] Cached process > pVCF_to_plink (wgs_12509_genome.deepvariant.chr10.vcf.gz)
+May-25 00:04:41.871 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [18/d7562b] Cached process > plink_filter_merge (plink_filter_merge)
+May-25 00:04:42.005 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [7e/dec037] Cached process > select_unrel_topN (select_unrel_topN (topN=1000))
+May-25 00:04:42.216 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_1941cc26) > jobId: 13149419; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536
+May-25 00:04:42.216 [Task submitter] INFO  nextflow.Session - [2b/960bdf] Submitted process > gvcf_to_signalintensity (gvcf_batch_1941cc26)
+May-25 00:04:46.995 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_56a4dc64) > jobId: 13149438; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0
+May-25 00:04:46.996 [Task submitter] INFO  nextflow.Session - [58/89446e] Submitted process > gvcf_to_signalintensity (gvcf_batch_56a4dc64)
+May-25 00:04:53.012 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_0fc84eef) > jobId: 13149441; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353
+May-25 00:04:53.012 [Task submitter] INFO  nextflow.Session - [cb/f68ea0] Submitted process > gvcf_to_signalintensity (gvcf_batch_0fc84eef)
+May-25 00:04:59.009 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_d9546687) > jobId: 13149443; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484
+May-25 00:04:59.009 [Task submitter] INFO  nextflow.Session - [ed/47a656] Submitted process > gvcf_to_signalintensity (gvcf_batch_d9546687)
+May-25 00:05:04.978 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_743078de) > jobId: 13149447; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45
+May-25 00:05:04.978 [Task submitter] INFO  nextflow.Session - [5b/839bc8] Submitted process > gvcf_to_signalintensity (gvcf_batch_743078de)
+May-25 00:05:11.610 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_9d7000b8) > jobId: 13149449; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e
+May-25 00:05:11.611 [Task submitter] INFO  nextflow.Session - [87/49871d] Submitted process > gvcf_to_signalintensity (gvcf_batch_9d7000b8)
+May-25 00:05:16.971 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_f05cd86a) > jobId: 13149450; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6
+May-25 00:05:16.971 [Task submitter] INFO  nextflow.Session - [b3/213cb5] Submitted process > gvcf_to_signalintensity (gvcf_batch_f05cd86a)
+May-25 00:05:23.605 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_9f92b71f) > jobId: 13149452; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5
+May-25 00:05:23.605 [Task submitter] INFO  nextflow.Session - [8c/e7a791] Submitted process > gvcf_to_signalintensity (gvcf_batch_9f92b71f)
+May-25 00:05:29.202 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_abec7515) > jobId: 13149454; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54
+May-25 00:05:29.202 [Task submitter] INFO  nextflow.Session - [73/863163] Submitted process > gvcf_to_signalintensity (gvcf_batch_abec7515)
+May-25 00:05:36.220 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_0b191295) > jobId: 13149467; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011
+May-25 00:05:36.221 [Task submitter] INFO  nextflow.Session - [c9/8a5cad] Submitted process > gvcf_to_signalintensity (gvcf_batch_0b191295)
+May-25 00:05:40.992 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_e6c0318c) > jobId: 13149468; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/62/dfbd65a3fa67eea7c716e6890d4ba8
+May-25 00:05:40.993 [Task submitter] INFO  nextflow.Session - [62/dfbd65] Submitted process > gvcf_to_signalintensity (gvcf_batch_e6c0318c)
+May-25 00:05:47.595 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_75a6b8ff) > jobId: 13149469; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/27/9a375ce7af12e035150619c497c4dd
+May-25 00:05:47.595 [Task submitter] INFO  nextflow.Session - [27/9a375c] Submitted process > gvcf_to_signalintensity (gvcf_batch_75a6b8ff)
+May-25 00:05:52.975 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_565b4e3b) > jobId: 13149470; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8a/a0d0980c82930def5bf4bbd4e635f6
+May-25 00:05:52.975 [Task submitter] INFO  nextflow.Session - [8a/a0d098] Submitted process > gvcf_to_signalintensity (gvcf_batch_565b4e3b)
+May-25 00:05:59.409 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_bb2f2c45) > jobId: 13149474; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ca/628c2ac75bfd621fdeec3f685f1d6c
+May-25 00:05:59.409 [Task submitter] INFO  nextflow.Session - [ca/628c2a] Submitted process > gvcf_to_signalintensity (gvcf_batch_bb2f2c45)
+May-25 00:06:04.968 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_6538c48f) > jobId: 13149479; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/6c/77bd370fe0b4e2a5065c50b914aa23
+May-25 00:06:04.968 [Task submitter] INFO  nextflow.Session - [6c/77bd37] Submitted process > gvcf_to_signalintensity (gvcf_batch_6538c48f)
+May-25 00:06:12.083 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_2a6f06ea) > jobId: 13149480; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/a3/3eec1d8825b6910b780d7d02faf034
+May-25 00:06:12.083 [Task submitter] INFO  nextflow.Session - [a3/3eec1d] Submitted process > gvcf_to_signalintensity (gvcf_batch_2a6f06ea)
+May-25 00:06:16.991 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_b7d2564c) > jobId: 13149482; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/f0/4e6bd9802fccb5b4e4479db4f0eab5
+May-25 00:06:16.991 [Task submitter] INFO  nextflow.Session - [f0/4e6bd9] Submitted process > gvcf_to_signalintensity (gvcf_batch_b7d2564c)
+May-25 00:06:23.013 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_8956ea9b) > jobId: 13149483; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/77/3754b7293b94303fd5440370b42b1a
+May-25 00:06:23.013 [Task submitter] INFO  nextflow.Session - [77/3754b7] Submitted process > gvcf_to_signalintensity (gvcf_batch_8956ea9b)
+May-25 00:06:28.975 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_51f61448) > jobId: 13149484; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/16/2a8a638406fa088af5ef89dbd45bb4
+May-25 00:06:28.975 [Task submitter] INFO  nextflow.Session - [16/2a8a63] Submitted process > gvcf_to_signalintensity (gvcf_batch_51f61448)
+May-25 00:06:34.998 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_7aecb814) > jobId: 13149486; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/e0/84cbdad35475c6e7a343569fad4553
+May-25 00:06:34.998 [Task submitter] INFO  nextflow.Session - [e0/84cbda] Submitted process > gvcf_to_signalintensity (gvcf_batch_7aecb814)
+May-25 00:06:41.013 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5dffb521) > jobId: 13149488; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/4b/b8808157b483f88b92427ddcfa38b2
+May-25 00:06:41.013 [Task submitter] INFO  nextflow.Session - [4b/b88081] Submitted process > gvcf_to_signalintensity (gvcf_batch_5dffb521)
+May-25 00:06:47.204 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_b1484d9f) > jobId: 13149489; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/f3/d894810b4d2d60d9de8d581fb6658b
+May-25 00:06:47.205 [Task submitter] INFO  nextflow.Session - [f3/d89481] Submitted process > gvcf_to_signalintensity (gvcf_batch_b1484d9f)
+May-25 00:06:56.120 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_bc0fe811) > jobId: 13149491; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/15/0fe361e53bef2f445c813fbba3d681
+May-25 00:06:56.120 [Task submitter] INFO  nextflow.Session - [15/0fe361] Submitted process > gvcf_to_signalintensity (gvcf_batch_bc0fe811)
+May-25 00:06:58.983 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_c838965b) > jobId: 13149492; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/d2/ad1ffc5e7043ceacba948d3228a375
+May-25 00:06:58.983 [Task submitter] INFO  nextflow.Session - [d2/ad1ffc] Submitted process > gvcf_to_signalintensity (gvcf_batch_c838965b)
+May-25 00:07:04.967 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_a5abb15e) > jobId: 13149500; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/4d/ad80da6d9a42b88bf0f852ed5ecd59
+May-25 00:07:04.967 [Task submitter] INFO  nextflow.Session - [4d/ad80da] Submitted process > gvcf_to_signalintensity (gvcf_batch_a5abb15e)
+May-25 00:07:10.978 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_4fa8af06) > jobId: 13149502; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3f/b12e74c577838b6fd0caa4ef3b6cda
+May-25 00:07:10.978 [Task submitter] INFO  nextflow.Session - [3f/b12e74] Submitted process > gvcf_to_signalintensity (gvcf_batch_4fa8af06)
+May-25 00:07:17.191 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_0ef07417) > jobId: 13149503; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/37/2e1c2d429285e02392c0c208fae763
+May-25 00:07:17.191 [Task submitter] INFO  nextflow.Session - [37/2e1c2d] Submitted process > gvcf_to_signalintensity (gvcf_batch_0ef07417)
+May-25 00:07:22.975 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_14fe612e) > jobId: 13149506; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/84/cf21de4db8791805286da524a45bb8
+May-25 00:07:22.975 [Task submitter] INFO  nextflow.Session - [84/cf21de] Submitted process > gvcf_to_signalintensity (gvcf_batch_14fe612e)
+May-25 00:07:29.013 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_dbce612e) > jobId: 13149507; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/e0/0b889d6c08ce8c2fe9d56cfac9bcea
+May-25 00:07:29.014 [Task submitter] INFO  nextflow.Session - [e0/0b889d] Submitted process > gvcf_to_signalintensity (gvcf_batch_dbce612e)
+May-25 00:07:34.973 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_1f7c22d7) > jobId: 13149508; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/90/74d08429436c8ee6d4a390aeb37f26
+May-25 00:07:34.973 [Task submitter] INFO  nextflow.Session - [90/74d084] Submitted process > gvcf_to_signalintensity (gvcf_batch_1f7c22d7)
+May-25 00:07:41.002 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_d9be2f7c) > jobId: 13149509; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/40/c2199a0dee5a102366f9867bc2295c
+May-25 00:07:41.003 [Task submitter] INFO  nextflow.Session - [40/c2199a] Submitted process > gvcf_to_signalintensity (gvcf_batch_d9be2f7c)
+May-25 00:07:46.978 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_83c73654) > jobId: 13149510; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/85/8f9251fa132bcaf13edbd52566150b
+May-25 00:07:46.978 [Task submitter] INFO  nextflow.Session - [85/8f9251] Submitted process > gvcf_to_signalintensity (gvcf_batch_83c73654)
+May-25 00:07:52.971 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_2d42e735) > jobId: 13149511; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3e/07829bfcfa3a4f3582000a4d5735fb
+May-25 00:07:52.972 [Task submitter] INFO  nextflow.Session - [3e/07829b] Submitted process > gvcf_to_signalintensity (gvcf_batch_2d42e735)
+May-25 00:07:58.968 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_dd288679) > jobId: 13149514; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/96/e3db024541246807c0ac3315b482db
+May-25 00:07:58.968 [Task submitter] INFO  nextflow.Session - [96/e3db02] Submitted process > gvcf_to_signalintensity (gvcf_batch_dd288679)
+May-25 00:08:04.990 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_7b4f07c6) > jobId: 13149516; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/aa/e1f79cc1175d15ef153b2cc229ab62
+May-25 00:08:04.990 [Task submitter] INFO  nextflow.Session - [aa/e1f79c] Submitted process > gvcf_to_signalintensity (gvcf_batch_7b4f07c6)
+May-25 00:08:11.594 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_4aec6b09) > jobId: 13149517; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/dd/2962ab05a827e787bba4eff56196be
+May-25 00:08:11.594 [Task submitter] INFO  nextflow.Session - [dd/2962ab] Submitted process > gvcf_to_signalintensity (gvcf_batch_4aec6b09)
+May-25 00:08:16.974 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_697552d2) > jobId: 13149518; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/f942b755c4730a441a981bb8332e7a
+May-25 00:08:16.974 [Task submitter] INFO  nextflow.Session - [ed/f942b7] Submitted process > gvcf_to_signalintensity (gvcf_batch_697552d2)
+May-25 00:08:22.973 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_c19b5fa2) > jobId: 13149520; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/93/a171197848e696d49c36bac47070b1
+May-25 00:08:22.973 [Task submitter] INFO  nextflow.Session - [93/a17119] Submitted process > gvcf_to_signalintensity (gvcf_batch_c19b5fa2)
+May-25 00:08:29.024 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_0fe5c373) > jobId: 13149521; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/78/9d55bff5832e498fbd8bfcc7573f43
+May-25 00:08:29.025 [Task submitter] INFO  nextflow.Session - [78/9d55bf] Submitted process > gvcf_to_signalintensity (gvcf_batch_0fe5c373)
+May-25 00:08:38.274 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_fc5f8f09) > jobId: 13149534; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b7/7bd8dbecc0c6fe9f30ad76b04fe4a3
+May-25 00:08:38.275 [Task submitter] INFO  nextflow.Session - [b7/7bd8db] Submitted process > gvcf_to_signalintensity (gvcf_batch_fc5f8f09)
+May-25 00:08:41.649 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_43795255) > jobId: 13149537; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/68/cb6292048cf04848523763e222dcb9
+May-25 00:08:41.649 [Task submitter] INFO  nextflow.Session - [68/cb6292] Submitted process > gvcf_to_signalintensity (gvcf_batch_43795255)
+May-25 00:08:47.078 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_6ef111a9) > jobId: 13149538; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/60/fb1b2c6b5b6e6499b0bc3cc2675dc6
+May-25 00:08:47.078 [Task submitter] INFO  nextflow.Session - [60/fb1b2c] Submitted process > gvcf_to_signalintensity (gvcf_batch_6ef111a9)
+May-25 00:08:56.196 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_acbe7989) > jobId: 13149540; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b9/df5bf28b6a6c4036f826bd0aebc137
+May-25 00:08:56.197 [Task submitter] INFO  nextflow.Session - [b9/df5bf2] Submitted process > gvcf_to_signalintensity (gvcf_batch_acbe7989)
+May-25 00:08:59.585 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_e28a7a46) > jobId: 13149541; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/31/0916d1aba0a44e444978b92639fa17
+May-25 00:08:59.585 [Task submitter] INFO  nextflow.Session - [31/0916d1] Submitted process > gvcf_to_signalintensity (gvcf_batch_e28a7a46)
+May-25 00:09:05.019 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_15144fc4) > jobId: 13149542; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/51/e3888ed12d2918792ca4dcc51ea8b3
+May-25 00:09:05.020 [Task submitter] INFO  nextflow.Session - [51/e3888e] Submitted process > gvcf_to_signalintensity (gvcf_batch_15144fc4)
+May-25 00:09:11.016 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_f773cc6e) > jobId: 13149543; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/29/ca6c1e36d5a04db61eea6fd4776df7
+May-25 00:09:11.017 [Task submitter] INFO  nextflow.Session - [29/ca6c1e] Submitted process > gvcf_to_signalintensity (gvcf_batch_f773cc6e)
+May-25 00:09:16.975 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_9fe25d5a) > jobId: 13149545; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c6/8179c245c3c81a2f91d879ce7b7729
+May-25 00:09:16.975 [Task submitter] INFO  nextflow.Session - [c6/8179c2] Submitted process > gvcf_to_signalintensity (gvcf_batch_9fe25d5a)
+May-25 00:09:24.002 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_7d5fe662) > jobId: 13149546; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cd/b4999ed2ba7080163047744230dcf5
+May-25 00:09:24.002 [Task submitter] INFO  nextflow.Session - [cd/b4999e] Submitted process > gvcf_to_signalintensity (gvcf_batch_7d5fe662)
+May-25 00:09:28.972 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5dbcad90) > jobId: 13149547; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c5/5245a3adbd938448a59982c0c5e47d
+May-25 00:09:28.972 [Task submitter] INFO  nextflow.Session - [c5/5245a3] Submitted process > gvcf_to_signalintensity (gvcf_batch_5dbcad90)
+May-25 00:09:34.980 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5d6e24e2) > jobId: 13149548; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/0a/6e16eafed19fb9690aac28ce5f35ab
+May-25 00:09:34.980 [Task submitter] INFO  nextflow.Session - [0a/6e16ea] Submitted process > gvcf_to_signalintensity (gvcf_batch_5d6e24e2)
+May-25 00:09:36.160 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 50 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:09:41.172 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_3e507e76) > jobId: 13149550; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5f/6509ce88c4e8bf842af88dbb11d14a
+May-25 00:09:41.172 [Task submitter] INFO  nextflow.Session - [5f/6509ce] Submitted process > gvcf_to_signalintensity (gvcf_batch_3e507e76)
+May-25 00:09:46.993 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_33f1e1e6) > jobId: 13149551; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/90/5de52a6c1141496745fadb1be9d07a
+May-25 00:09:46.994 [Task submitter] INFO  nextflow.Session - [90/5de52a] Submitted process > gvcf_to_signalintensity (gvcf_batch_33f1e1e6)
+May-25 00:09:52.972 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_31334d0d) > jobId: 13149553; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/65/0643f908024e311831fa924aadedc2
+May-25 00:09:52.972 [Task submitter] INFO  nextflow.Session - [65/0643f9] Submitted process > gvcf_to_signalintensity (gvcf_batch_31334d0d)
+May-25 00:09:59.033 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_e56037b8) > jobId: 13149554; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/03/7d345d63b7f2d6fbfa000d7ffd1c31
+May-25 00:09:59.033 [Task submitter] INFO  nextflow.Session - [03/7d345d] Submitted process > gvcf_to_signalintensity (gvcf_batch_e56037b8)
+May-25 00:10:04.974 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_553f6860) > jobId: 13149561; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/aa/1f5acfaad2daa6529429243295c48e
+May-25 00:10:04.974 [Task submitter] INFO  nextflow.Session - [aa/1f5acf] Submitted process > gvcf_to_signalintensity (gvcf_batch_553f6860)
+May-25 00:10:10.992 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_ee51b37a) > jobId: 13149582; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/e9/d35145aebbfb436a431d9eda4adc99
+May-25 00:10:10.992 [Task submitter] INFO  nextflow.Session - [e9/d35145] Submitted process > gvcf_to_signalintensity (gvcf_batch_ee51b37a)
+May-25 00:10:17.193 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_8addd539) > jobId: 13149584; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/09/e06b68332ce39078ee9ce8509db697
+May-25 00:10:17.193 [Task submitter] INFO  nextflow.Session - [09/e06b68] Submitted process > gvcf_to_signalintensity (gvcf_batch_8addd539)
+May-25 00:10:23.003 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_1687cc09) > jobId: 13149587; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/38/0819145cae034fe9639464a27353bf
+May-25 00:10:23.004 [Task submitter] INFO  nextflow.Session - [38/081914] Submitted process > gvcf_to_signalintensity (gvcf_batch_1687cc09)
+May-25 00:10:28.976 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_2fa89de4) > jobId: 13149590; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/4a/4d0f2f38c0e5564d2e2b7645f5cae9
+May-25 00:10:28.977 [Task submitter] INFO  nextflow.Session - [4a/4d0f2f] Submitted process > gvcf_to_signalintensity (gvcf_batch_2fa89de4)
+May-25 00:10:34.982 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_ea0aae5c) > jobId: 13149592; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/e1/23bb8cec94093d232593a6d61f6b33
+May-25 00:10:34.982 [Task submitter] INFO  nextflow.Session - [e1/23bb8c] Submitted process > gvcf_to_signalintensity (gvcf_batch_ea0aae5c)
+May-25 00:10:40.987 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_54524801) > jobId: 13149594; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/01/4f31089d67f59594258c9e0ce51f72
+May-25 00:10:40.987 [Task submitter] INFO  nextflow.Session - [01/4f3108] Submitted process > gvcf_to_signalintensity (gvcf_batch_54524801)
+May-25 00:10:46.992 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5837fb0c) > jobId: 13149595; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ab/6fd993d0175c36a81ab1981f41c95a
+May-25 00:10:46.992 [Task submitter] INFO  nextflow.Session - [ab/6fd993] Submitted process > gvcf_to_signalintensity (gvcf_batch_5837fb0c)
+May-25 00:10:52.990 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_4efbf4d2) > jobId: 13149597; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/62d35ba6e11cd55261535d02e2edb6
+May-25 00:10:52.990 [Task submitter] INFO  nextflow.Session - [87/62d35b] Submitted process > gvcf_to_signalintensity (gvcf_batch_4efbf4d2)
+May-25 00:10:58.977 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5e52c0fe) > jobId: 13149598; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/42/7efe769863ef1ae62238dd5c046eca
+May-25 00:10:58.977 [Task submitter] INFO  nextflow.Session - [42/7efe76] Submitted process > gvcf_to_signalintensity (gvcf_batch_5e52c0fe)
+May-25 00:11:04.979 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_fe585161) > jobId: 13149601; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/d7/308db1aaaf11b1a1ef51ce27baec64
+May-25 00:11:04.979 [Task submitter] INFO  nextflow.Session - [d7/308db1] Submitted process > gvcf_to_signalintensity (gvcf_batch_fe585161)
+May-25 00:11:10.980 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_f7920cb6) > jobId: 13149603; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/01/e29a8412f44ddf2b520245d4c29dd2
+May-25 00:11:10.981 [Task submitter] INFO  nextflow.Session - [01/e29a84] Submitted process > gvcf_to_signalintensity (gvcf_batch_f7920cb6)
+May-25 00:11:16.972 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_d66bdf0e) > jobId: 13149604; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/f4/07e5f392e461175d2fb816ab8b2c05
+May-25 00:11:16.972 [Task submitter] INFO  nextflow.Session - [f4/07e5f3] Submitted process > gvcf_to_signalintensity (gvcf_batch_d66bdf0e)
+May-25 00:11:22.983 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_daa4f5b0) > jobId: 13149606; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/20/a6f9509bc5ed1d913a90ff450db5e7
+May-25 00:11:22.984 [Task submitter] INFO  nextflow.Session - [20/a6f950] Submitted process > gvcf_to_signalintensity (gvcf_batch_daa4f5b0)
+May-25 00:11:28.989 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_12f41476) > jobId: 13149607; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/f6/a61294a7aad29f23e20f495e0ad1bc
+May-25 00:11:28.989 [Task submitter] INFO  nextflow.Session - [f6/a61294] Submitted process > gvcf_to_signalintensity (gvcf_batch_12f41476)
+May-25 00:11:35.193 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_24761315) > jobId: 13149609; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/46/3acb1c386d46de37708df85b4b2cbd
+May-25 00:11:35.194 [Task submitter] INFO  nextflow.Session - [46/3acb1c] Submitted process > gvcf_to_signalintensity (gvcf_batch_24761315)
+May-25 00:11:42.063 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_800e6c33) > jobId: 13149630; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8e/d391d169ebdc1b595f18999ce1668c
+May-25 00:11:42.063 [Task submitter] INFO  nextflow.Session - [8e/d391d1] Submitted process > gvcf_to_signalintensity (gvcf_batch_800e6c33)
+May-25 00:11:46.972 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_28cc5e63) > jobId: 13149631; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3f/94b0828b5359ed57f743ec66410ed7
+May-25 00:11:46.972 [Task submitter] INFO  nextflow.Session - [3f/94b082] Submitted process > gvcf_to_signalintensity (gvcf_batch_28cc5e63)
+May-25 00:11:52.977 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_1a03085a) > jobId: 13149632; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/02/37324db6bb6de0061019873da6634b
+May-25 00:11:52.977 [Task submitter] INFO  nextflow.Session - [02/37324d] Submitted process > gvcf_to_signalintensity (gvcf_batch_1a03085a)
+May-25 00:12:00.035 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_2c8212a2) > jobId: 13149633; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3c/50c33fd9bc52410c949160a688c5de
+May-25 00:12:00.035 [Task submitter] INFO  nextflow.Session - [3c/50c33f] Submitted process > gvcf_to_signalintensity (gvcf_batch_2c8212a2)
+May-25 00:12:06.052 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_0837c69d) > jobId: 13149635; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/92/298bfbd786d9e3206361c32d07d62d
+May-25 00:12:06.053 [Task submitter] INFO  nextflow.Session - [92/298bfb] Submitted process > gvcf_to_signalintensity (gvcf_batch_0837c69d)
+May-25 00:12:12.448 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_959e9bb1) > jobId: 13149641; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3d/5ba320c0002dc3ffbaa482f21a8b7f
+May-25 00:12:12.448 [Task submitter] INFO  nextflow.Session - [3d/5ba320] Submitted process > gvcf_to_signalintensity (gvcf_batch_959e9bb1)
+May-25 00:12:17.001 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_7ed4bc48) > jobId: 13149642; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/a9/807665046fcf5eb8fe113209bd68ca
+May-25 00:12:17.002 [Task submitter] INFO  nextflow.Session - [a9/807665] Submitted process > gvcf_to_signalintensity (gvcf_batch_7ed4bc48)
+May-25 00:12:22.996 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_3ea06bfd) > jobId: 13149643; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ae/836436b9c77e1f7873204b64e1887f
+May-25 00:12:22.996 [Task submitter] INFO  nextflow.Session - [ae/836436] Submitted process > gvcf_to_signalintensity (gvcf_batch_3ea06bfd)
+May-25 00:12:30.198 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_ae532778) > jobId: 13149645; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b8/d91cddd544e1decc0c093227e102e8
+May-25 00:12:30.199 [Task submitter] INFO  nextflow.Session - [b8/d91cdd] Submitted process > gvcf_to_signalintensity (gvcf_batch_ae532778)
+May-25 00:12:34.971 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_c56461ba) > jobId: 13149654; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/46/8f1b11e3cc8265108810dec68a3d85
+May-25 00:12:34.971 [Task submitter] INFO  nextflow.Session - [46/8f1b11] Submitted process > gvcf_to_signalintensity (gvcf_batch_c56461ba)
+May-25 00:12:41.612 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_3c17a386) > jobId: 13149656; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/3e/b4b54b3531ecdde444b1a2ffac8505
+May-25 00:12:41.612 [Task submitter] INFO  nextflow.Session - [3e/b4b54b] Submitted process > gvcf_to_signalintensity (gvcf_batch_3c17a386)
+May-25 00:12:47.062 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_7b20a9dc) > jobId: 13149657; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5c/9778c0d5edc66e9f6102e7762b97cb
+May-25 00:12:47.062 [Task submitter] INFO  nextflow.Session - [5c/9778c0] Submitted process > gvcf_to_signalintensity (gvcf_batch_7b20a9dc)
+May-25 00:12:54.205 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_8e334515) > jobId: 13149658; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/be/61b26ff88795d7b36b28f624f5080a
+May-25 00:12:54.205 [Task submitter] INFO  nextflow.Session - [be/61b26f] Submitted process > gvcf_to_signalintensity (gvcf_batch_8e334515)
+May-25 00:12:58.977 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_bd114777) > jobId: 13149659; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/7c/e010c7b5b104283dc50895737c9c3c
+May-25 00:12:58.977 [Task submitter] INFO  nextflow.Session - [7c/e010c7] Submitted process > gvcf_to_signalintensity (gvcf_batch_bd114777)
+May-25 00:13:06.611 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_05b08234) > jobId: 13149666; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/53/a82ed94b83c362ac5e73999c17b04c
+May-25 00:13:06.611 [Task submitter] INFO  nextflow.Session - [53/a82ed9] Submitted process > gvcf_to_signalintensity (gvcf_batch_05b08234)
+May-25 00:13:10.976 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_3a167bc9) > jobId: 13149667; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/fc/e41c5b77c5a80d5ec20e69f2d68177
+May-25 00:13:10.977 [Task submitter] INFO  nextflow.Session - [fc/e41c5b] Submitted process > gvcf_to_signalintensity (gvcf_batch_3a167bc9)
+May-25 00:13:17.070 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5cb477da) > jobId: 13149669; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/44/fb07931e2a33a1e5b09e449a7db2e0
+May-25 00:13:17.070 [Task submitter] INFO  nextflow.Session - [44/fb0793] Submitted process > gvcf_to_signalintensity (gvcf_batch_5cb477da)
+May-25 00:13:22.973 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5840c14a) > jobId: 13149672; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/42/00a7d362cb83fea5bf25d732499b49
+May-25 00:13:22.973 [Task submitter] INFO  nextflow.Session - [42/00a7d3] Submitted process > gvcf_to_signalintensity (gvcf_batch_5840c14a)
+May-25 00:13:29.172 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_6992611a) > jobId: 13149673; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/9a/901844d475cd50525ce4853174b7a0
+May-25 00:13:29.173 [Task submitter] INFO  nextflow.Session - [9a/901844] Submitted process > gvcf_to_signalintensity (gvcf_batch_6992611a)
+May-25 00:13:34.993 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_16d7fece) > jobId: 13149674; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/16/d8a7f388852747fe9520a3f065320a
+May-25 00:13:34.993 [Task submitter] INFO  nextflow.Session - [16/d8a7f3] Submitted process > gvcf_to_signalintensity (gvcf_batch_16d7fece)
+May-25 00:13:40.970 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_0ed20c8f) > jobId: 13149676; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/0f/bf05e268919768bc415e224d7987ff
+May-25 00:13:40.970 [Task submitter] INFO  nextflow.Session - [0f/bf05e2] Submitted process > gvcf_to_signalintensity (gvcf_batch_0ed20c8f)
+May-25 00:13:48.007 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_10f57d98) > jobId: 13149677; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cf/ea94a8d3d8afb33501334ab0d81858
+May-25 00:13:48.007 [Task submitter] INFO  nextflow.Session - [cf/ea94a8] Submitted process > gvcf_to_signalintensity (gvcf_batch_10f57d98)
+May-25 00:13:52.969 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_ee89b084) > jobId: 13149680; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ac/11ee9e07333b66ddba7b406c9da651
+May-25 00:13:52.970 [Task submitter] INFO  nextflow.Session - [ac/11ee9e] Submitted process > gvcf_to_signalintensity (gvcf_batch_ee89b084)
+May-25 00:13:58.974 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_77baf70d) > jobId: 13149682; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/06/e6697e3f6fed9b140f0511cb7e0c35
+May-25 00:13:58.974 [Task submitter] INFO  nextflow.Session - [06/e6697e] Submitted process > gvcf_to_signalintensity (gvcf_batch_77baf70d)
+May-25 00:14:05.012 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_3fd75690) > jobId: 13149685; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/44/5b5b55481ea2c1af458fd2a5faaaa2
+May-25 00:14:05.012 [Task submitter] INFO  nextflow.Session - [44/5b5b55] Submitted process > gvcf_to_signalintensity (gvcf_batch_3fd75690)
+May-25 00:14:10.971 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_384dbfb4) > jobId: 13149687; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/92/ec3d23cf4be1ede01b9f16b564f25f
+May-25 00:14:10.971 [Task submitter] INFO  nextflow.Session - [92/ec3d23] Submitted process > gvcf_to_signalintensity (gvcf_batch_384dbfb4)
+May-25 00:14:16.973 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_5dd7aa69) > jobId: 13149688; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/14/ffecdfe04fca773de31bd0dbd8c8ea
+May-25 00:14:16.973 [Task submitter] INFO  nextflow.Session - [14/ffecdf] Submitted process > gvcf_to_signalintensity (gvcf_batch_5dd7aa69)
+May-25 00:14:23.385 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_bf32df2c) > jobId: 13149690; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/f2/6021500c6d515653e1ad8f42233977
+May-25 00:14:23.385 [Task submitter] INFO  nextflow.Session - [f2/602150] Submitted process > gvcf_to_signalintensity (gvcf_batch_bf32df2c)
+May-25 00:14:28.994 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_dc05caf7) > jobId: 13149691; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/65/2356d070be6f9e12c98bfe97085c87
+May-25 00:14:28.994 [Task submitter] INFO  nextflow.Session - [65/2356d0] Submitted process > gvcf_to_signalintensity (gvcf_batch_dc05caf7)
+May-25 00:14:36.177 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 99 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:14:38.114 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_175e78c7) > jobId: 13149693; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/70/735428d855297d1bd633359f6f6775
+May-25 00:14:38.114 [Task submitter] INFO  nextflow.Session - [70/735428] Submitted process > gvcf_to_signalintensity (gvcf_batch_175e78c7)
+May-25 00:19:36.187 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:19:52.941 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:24:36.193 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:24:58.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:29:36.202 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:30:04.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:34:36.211 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:35:10.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:39:36.227 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:40:16.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:44:36.238 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:45:22.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:49:36.245 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:50:28.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:54:36.253 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 00:55:34.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 00:59:36.261 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:00:40.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:04:36.275 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:05:46.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:09:36.285 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:10:52.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:14:36.297 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:15:58.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:19:36.308 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:21:04.940 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:24:36.318 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:26:10.941 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:29:36.325 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:31:16.939 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:34:36.331 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:36:22.939 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:39:36.338 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:41:28.939 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:44:36.348 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:46:34.939 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:49:36.354 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:51:40.939 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:54:36.360 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 01:56:46.939 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 01:59:36.365 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 100 -- submitted tasks are shown below
+~> TaskHandler[jobId: 13149419; id: 25; name: gvcf_to_signalintensity (gvcf_batch_1941cc26); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/2b/960bdf80f5a6f3716f8d766b44d536 started: 1779681936150; exited: -; ]
+~> TaskHandler[jobId: 13149438; id: 24; name: gvcf_to_signalintensity (gvcf_batch_56a4dc64); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/58/89446ecc7d341816f9fc4a6eb7eca0 started: 1779681936155; exited: -; ]
+~> TaskHandler[jobId: 13149441; id: 27; name: gvcf_to_signalintensity (gvcf_batch_0fc84eef); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/cb/f68ea0cae250214429f918eb499353 started: 1779681936156; exited: -; ]
+~> TaskHandler[jobId: 13149443; id: 28; name: gvcf_to_signalintensity (gvcf_batch_d9546687); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/ed/47a656f54436a6d868f382c5fcc484 started: 1779681936157; exited: -; ]
+~> TaskHandler[jobId: 13149447; id: 29; name: gvcf_to_signalintensity (gvcf_batch_743078de); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/5b/839bc8b5e2359597482a713e8c1a45 started: 1779681936158; exited: -; ]
+~> TaskHandler[jobId: 13149449; id: 30; name: gvcf_to_signalintensity (gvcf_batch_9d7000b8); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/87/49871d9ad29d0c827dba4f463c696e started: 1779681936159; exited: -; ]
+~> TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: -; ]
+~> TaskHandler[jobId: 13149452; id: 32; name: gvcf_to_signalintensity (gvcf_batch_9f92b71f); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/8c/e7a791783051fd5d5517da01b36ef5 started: 1779681936161; exited: -; ]
+~> TaskHandler[jobId: 13149454; id: 33; name: gvcf_to_signalintensity (gvcf_batch_abec7515); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/73/863163db399119185e650df5583e54 started: 1779681936162; exited: -; ]
+~> TaskHandler[jobId: 13149467; id: 34; name: gvcf_to_signalintensity (gvcf_batch_0b191295); status: RUNNING; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/c9/8a5cad54bae4ea0ab07b157131a011 started: 1779682121158; exited: -; ]
+.. remaining tasks omitted.
+May-25 02:01:52.939 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor slurm > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[jobId: null; id: 125; name: gvcf_to_signalintensity (gvcf_batch_c4c5baa0); status: NEW; exit: -; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43 started: -; exited: -; ]
+May-25 02:02:26.372 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13149450; id: 31; name: gvcf_to_signalintensity (gvcf_batch_f05cd86a); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/b3/213cb5974fc9bce6e997326bf5b0e6 started: 1779681936160; exited: 2026-05-25T06:02:22Z; ]
+May-25 02:02:26.376 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=10; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+May-25 02:02:26.407 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 13149484; id: 43; name: gvcf_to_signalintensity (gvcf_batch_51f61448); status: COMPLETED; exit: 0; error: -; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/16/2a8a638406fa088af5ef89dbd45bb4 started: 1779682121165; exited: 2026-05-25T06:02:21Z; ]
+May-25 02:02:28.971 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process gvcf_to_signalintensity (gvcf_batch_c4c5baa0) > jobId: 13152739; workDir: /lustre09/project/6008022/mame20/WGS_pipeline/work/64/0cdb25e06e5d8da89a0e2445080b43
+May-25 02:02:28.971 [Task submitter] INFO  nextflow.Session - [64/0cdb25] Submitted process > gvcf_to_signalintensity (gvcf_batch_c4c5baa0)
+May-25 02:02:33.509 [TaskFinalizer-2] ERROR n.processor.TaskPollingMonitor - Unexpected error while finalizing task 'gvcf_to_signalintensity (gvcf_batch_51f61448)' - cause: No such property: name for class: java.lang.String
+Possible solutions: value, hash
+May-25 02:02:33.511 [TaskFinalizer-2] DEBUG nextflow.Session - Session aborted -- Cause: No such property: name for class: java.lang.String
+Possible solutions: value, hash
+May-25 02:02:33.523 [TaskFinalizer-2] DEBUG nextflow.Session - The following nodes are still active:
+[process] split_iids
+  status=ACTIVE
+  port 0: (value) bound ; channel: iid_list
+  port 1: (value) OPEN  ; channel: lrr_baf_all/*
+  port 2: (value) bound ; channel: n_batches
+  port 3: (cntrl) -     ; channel: $
+
+[process] pfb_partial
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] pfb_reduce
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: partials
+  port 1: (value) bound ; channel: out_name
+  port 2: (cntrl) -     ; channel: $
+
+[process] filter_baf_lrr_files
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: baf_files
+  port 1: (value) OPEN  ; channel: pfb_file
+  port 2: (cntrl) -     ; channel: $
+
+May-25 02:02:33.529 [TaskFinalizer-2] WARN  n.processor.TaskPollingMonitor - Killing running tasks (99)
+May-25 02:02:33.634 [TaskFinalizer-1] ERROR n.processor.TaskPollingMonitor - Unexpected error while finalizing task 'gvcf_to_signalintensity (gvcf_batch_f05cd86a)' - cause: No such property: name for class: java.lang.String
+Possible solutions: value, hash
+May-25 02:02:36.369 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: slurm) - terminating tasks monitor poll loop
+May-25 02:02:40.936 [TaskFinalizer-2] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=24; pendingCount=0; submittedCount=0; runningCount=2; retriesCount=0; abortedCount=99; succeedDuration=0ms; failedDuration=0ms; cachedDuration=5d 18h 38m 53s;loadCpus=16; loadMemory=128 GB; peakRunning=101; peakCpus=808; peakMemory=6.3 TB; ]
+May-25 02:02:41.055 [TaskFinalizer-2] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+May-25 02:02:41.533 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-25 02:02:41.533 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-25 02:02:41.535 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=24; pendingCount=0; submittedCount=0; runningCount=2; retriesCount=0; abortedCount=99; succeedDuration=0ms; failedDuration=0ms; cachedDuration=5d 18h 38m 53s;loadCpus=16; loadMemory=128 GB; peakRunning=101; peakCpus=808; peakMemory=6.3 TB; ]
+May-25 02:02:41.535 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+May-25 02:02:41.557 [Actor Thread 10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=split_iids; work-dir=null
+  error [java.lang.InterruptedException]: java.lang.InterruptedException
+May-25 02:02:41.567 [Actor Thread 9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=pfb_partial; work-dir=null
+  error [java.lang.InterruptedException]: java.lang.InterruptedException
+May-25 02:02:41.912 [main] WARN  nextflow.trace.ReportObserver - Failed to render execution report -- see the log file for details
+nextflow.exception.AbortOperationException: Report file already exists: report-20260525-267457.html -- enable the 'report.overwrite' option in your config file to overwrite existing files
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:67)
+	at nextflow.trace.ReportObserver.renderHtml(ReportObserver.groovy:243)
+	at nextflow.trace.ReportObserver.onFlowComplete(ReportObserver.groovy:129)
+	at nextflow.Session$_notifyFlowComplete_lambda39.doCall(Session.groovy:1121)
+	at nextflow.Session.notifyEvent(Session.groovy:1151)
+	at nextflow.Session.notifyFlowComplete(Session.groovy:1121)
+	at nextflow.Session.shutdown0(Session.groovy:779)
+	at nextflow.Session.destroy(Session.groovy:724)
+	at nextflow.script.ScriptRunner.shutdown(ScriptRunner.groovy:263)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:147)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:429)
+	at nextflow.cli.Launcher.run(Launcher.groovy:515)
+	at nextflow.cli.Launcher.main(Launcher.groovy:675)
+Caused by: java.nio.file.FileAlreadyExistsException: report-20260525-267457.html
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:94)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+	at java.base/sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261)
+	at java.base/java.nio.file.spi.FileSystemProvider.newOutputStream(FileSystemProvider.java:482)
+	at java.base/java.nio.file.Files.newOutputStream(Files.java:227)
+	at java.base/java.nio.file.Files.newBufferedWriter(Files.java:2988)
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:64)
+	... 12 common frames omitted
+May-25 02:02:41.954 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-25 02:02:42.006 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
