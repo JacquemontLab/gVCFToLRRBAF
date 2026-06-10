@@ -1,1 +1,29 @@
-test/
+# Nextflow work dirs et caches
+work/
+.nextflow/
+.nextflow.log*
+
+# Résultats
+results*/
+test_results/
+
+# Fichiers temporaires Nextflow
+gvcf_batch_*.tsv
+*.bim_targets.tsv
+batch_list*.tsv
+
+# Logs SLURM et rapports
+slurm-*.out
+report-*.html
+timeline-*.html
+
+# Archives et backups
+archive/
+nextflowPrevious/
+pipelineBeforeSebModif/
+*.zip
+
+# Données de test
+test_v3/
+test_v1/
+test_v2/
