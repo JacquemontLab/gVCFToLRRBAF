@@ -1,4 +1,4 @@
-# WGS CNV Pipeline
+# gVCFTOLRRBAF
 
 A Nextflow DSL2 pipeline for generating Log R Ratio (LRR) and B Allele Frequency (BAF) signals from whole-genome sequencing (WGS) gVCF files, enabling copy number variant (CNV) detection with PennCNV.
 
