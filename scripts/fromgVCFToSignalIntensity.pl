@@ -1,269 +1,230 @@
 #!/usr/bin/env perl
-use warnings;
-use strict;
-use Getopt::Long;
-use Cwd 'abs_path';
-use File::Basename;
+use warnings;     # Display helpful warnings for potential issues
+use strict;       # Enforce variable declarations to avoid bugs
+use Getopt::Long; # Module to parse command-line options (like --sample_id)
+
 
 # ------------------------------------------
 # Script: fromgVCFToSignalIntensity.pl
 #
 # Purpose:
-#   Processes a compressed gVCF file (.gvcf.gz) to extract BAF/LRR signals
-#   for CNV detection with PennCNV or QuantiSNP.
-#
-#   Supports all gVCF formats:
-#     - DeepVariant : all positions explicit (SNV + ref/ref)
-#     - SNV-only    : only variant positions (e.g. All of Us)
-#     - GATK gVCF   : reference blocks with END tag (HaplotypeCaller)
-#     - Any caller  : large reference blocks handled via binary search O(log n)
+#   Processes a compressed gVCF file (.gvcf.gz) to:
+#     1. Extract biallelic SNPs with adequate coverage and quality
+#     2. Calculate per-SNP metrics: 
+#        - Coverage (DP)
+#        - B Allele Count (BAC)
+#        - B Allele Frequency (BAF = BAC / DP)
+#     3. Generate input for CNV detection tools (PennCNV, QuantiSNP):
+#        - Log R Ratio (LRR) = log(observed coverage / mean coverage)
+#        - BAF
 #
 # Output:
-#   - <prefix>.snp_metrics.tsv : coverage-based metrics per position
-#   - <prefix>.baf_lrr.tsv     : BAF/LRR table (PennCNV/QuantiSNP compatible)
+#   - <prefix>.snp_metrics.tsv : Coverage-based metrics per SNP
+#   - <prefix>.baf_lrr.tsv     : Final table for CNV callers
 #
 # Required arguments:
-#   <input.gvcf.gz>        Compressed gVCF (bgzipped + tabix-indexed)
-#   --sample_id STRING     Output file prefix
+#   <input.gvcf.gz>         Compressed gVCF input file (must be bgzipped and indexed)
+#   --sample_id STRING      Output file prefix (e.g., "sample123")
 #
 # Optional arguments:
-#   --bim FILE             PLINK BIM file (recommended — positions to extract)
-#   --genome_version STR   GRCh38 (default) or GRCh37
-#   --output_dir STR       Output directory (default: current)
-#   --GQ INT               Min genotype quality (default: 20)
-#   --DP INT               Min depth of coverage (default: 10)
+#   --genome_version STRING  Genome build: GRCh38 (default) or GRCh37
+#   --output_dir STRING      Directory to save output files (default: current directory)
+#   --GQ INT                 Minimum genotype quality (default: 20)
+#   --DP INT                 Minimum depth of coverage (default: 10)
 #
 # Dependencies:
-#   - bcftools >= 1.14 (for --regions-overlap)
-#   - tabix-indexed gVCF (.tbi or .csi) when using --bim
+#   - bcftools must be installed and in the system PATH
+#   - Exclusion list: resources/Genome_Regions_data_<genome_version>.tsv
 #
 # Example:
 #   perl fromgVCFToSignalIntensity.pl sample.gvcf.gz \
-#     --sample_id SP0001234 --bim merged_dataset.bim \
-#     --output_dir LRR_BAF/ --GQ 20 --DP 10
+#     --sample_id sample123 \
+#     --genome_version GRCh38 \
+#     --output_dir results/ \
+#     --GQ 20 \
+#     --DP 10 \
+#     --bim .bimfile
 # ------------------------------------------
 
-my $script_dir = dirname(abs_path($0));
 
-my ($sample_id, $bim_file);
-my $genome_version = "GRCh38";
-my $GQ_threshold   = 20;
-my $DP_threshold   = 10;
-my $output_dir     = ".";
+use Cwd 'abs_path';
+use File::Basename;
 
+my $script_dir  = dirname(abs_path($0)); # directory containing the script
+
+# Command-line variable: --sample_id specifies the output file prefix
+my $sample_id;
+my $genome_version = "GRCh38";  # default value
+my $GQ = "20";  # default value
+my $DP = "10";  # default value
+my $output_dir = ".";  # default: current directory
+my $bim_file;  #optional
+
+# Parse options: --sample_id and --genome_version
 GetOptions(
-    'sample_id=s'      => \$sample_id,
+    'sample_id=s'        => \$sample_id,
     'genome_version=s' => \$genome_version,
-    'output_dir=s'     => \$output_dir,
-    'GQ=i'             => \$GQ_threshold,
-    'DP=i'             => \$DP_threshold,
-    'bim=s'            => \$bim_file,
-) or die "Usage: perl fromgVCFToSignalIntensity.pl input.gvcf.gz --sample_id ID [options]\n";
+    'output_dir=s' => \$output_dir,
+    'GQ=s' => \$GQ,
+    'DP=s' => \$DP,
+    'bim=s' => \$bim_file,  # <-- new optional
+) or die "Usage: perl script.pl input.gvcf.gz --sample_id sample_id [--output_dir output_dir] [--genome_version GRCh37|GRCh38] [--GQ INT] [--DP INT]\n";
 
-@ARGV == 1 && defined $sample_id
-    or die "Usage: perl fromgVCFToSignalIntensity.pl input.gvcf.gz --sample_id ID [options]\n";
+# Ensure one input file and --sample_id provided
+@ARGV == 1 && $sample_id
+  or die "Usage: perl script.pl input.gvcf.gz --sample_id sample_id [--output_dir output_dir] [--genome_version GRCh37|GRCh38]\n";
 
+# Input gVCF file
 my $input_gvcf = $ARGV[0];
 
-# ─── BIM data structures ──────────────────────────────────────────────────────
-# %keep       : exact lookup O(1)  →  "chrN\tPOS" -> 1
-# %chr_sorted : range queries      →  chrN -> [sorted positions]
-my (%keep, %chr_sorted);
-
-my $targets_file = "$output_dir/$sample_id.bim_targets.tsv";
-my $use_targets  = 0;
-
-if (defined $bim_file && -s $bim_file) {
-    print STDERR "NOTICE: Loading BIM file...\n";
-    open my $BIM, "<", $bim_file or die "Cannot read BIM $bim_file: $!\n";
-    open my $TGT, ">", $targets_file or die "Cannot write $targets_file: $!\n";
-
+# ----- Build a set of (chr,pos) to keep if --bim is provided -----
+my %keep;   # keys: "chrN\tPOS", e.g. "chr1\t10473"
+if (defined $bim_file && length $bim_file) {
+    open my $BIM, "<", $bim_file or die "Error: cannot read --bim $bim_file: $!\n";
     while (<$BIM>) {
-        chomp; next if /^\s*$/;
-        my @f = split /\t/;
+        chomp;
+        next if $_ eq "";
+        my @f = split /\t/;          # BIM columns: CHR  ID  CM  POS ...
         next unless @f >= 4;
         my ($bchr, $bpos) = ($f[0], $f[3]);
-        $bchr =~ s/^chr//i;
+
+        # normalize to WITH 'chr' (avoid double 'chr')
+        $bchr =~ s/^chr//i;          # strip any existing 'chr' first
         $bchr = "chr$bchr";
+
         $keep{"$bchr\t$bpos"} = 1;
-        push @{$chr_sorted{$bchr}}, $bpos;
-        # 2 columns, 1-based — unambiguous for bcftools -R
-        print $TGT "$bchr\t$bpos\n";
     }
     close $BIM;
-    close $TGT;
 
-    # Sort targets file (required by bcftools -R)
-    system("sort -k1,1 -k2,2n -o $targets_file $targets_file") == 0
-        or die "Failed to sort $targets_file\n";
-
-    # Sort each chromosome's position array for binary search
-    $chr_sorted{$_} = [ sort { $a <=> $b } @{$chr_sorted{$_}} ]
-        for keys %chr_sorted;
-
-    my $n = scalar keys %keep;
-    print STDERR "NOTICE: Loaded $n BIM positions\n";
-    $use_targets = 1;
 }
+# Global variable to store the mean coverage across SNPs
+my $meancov;
 
-my $meancov = 0;
+# Step 1: Extract SNPs and calculate BAF
 readVariantInfo("$output_dir/$sample_id.snp_metrics.tsv");
-addLRRBAF(
-    "$output_dir/$sample_id.snp_metrics.tsv",
-    "$output_dir/$sample_id.baf_lrr.tsv",
-    $meancov, $sample_id
-);
 
-# ─── Binary search: BIM positions within [start, end] ────────────────────────
-# O(log n + k) — efficient regardless of block size
-sub bim_in_range {
-    my ($chr, $start, $end) = @_;
-    my $arr = $chr_sorted{$chr} // [];
-    return () unless @$arr;
+# Step 2: Compute Log R Ratio and generate final report
+addLRRBAF("$output_dir/$sample_id.snp_metrics.tsv", "$output_dir/$sample_id.baf_lrr.tsv", $meancov, $sample_id, $output_dir);
 
-    # Find first index >= $start
-    my ($lo, $hi) = (0, $#$arr);
-    while ($lo < $hi) {
-        my $mid = int(($lo + $hi) / 2);
-        $arr->[$mid] < $start ? ($lo = $mid + 1) : ($hi = $mid);
-    }
-    return () if $arr->[$lo] < $start;
-    my @result;
-    while ($lo <= $#$arr && $arr->[$lo] <= $end) {
-        push @result, $arr->[$lo++];
-    }
-    return @result;
-}
-
-# ─── Step 1: Extract positions and compute BAF ────────────────────────────────
+# ===================================================
+# FUNCTION: Extract SNPs and compute BAF
+# Output: <prefix>.snp_metrics.tsv
+# ===================================================
 sub readVariantInfo {
-    my ($outfile) = @_;
+    my ($readoutfile) = @_;
 
-    my $regions_bed = "$script_dir/resources/Genome_Regions_data_${genome_version}.bed";
+    # Build bcftools pipeline:
+    my $command = "bcftools view -m3 -M3 -V indels $input_gvcf | " .               # Keep only biallelic SNPs
+                  "bcftools filter -e 'format/GQ<$GQ|format/DP<$DP' | " .            # Filter out low-quality genotypes
+                  "bcftools view -T ^$script_dir/resources/Genome_Regions_data_${genome_version}.bed  | " .        # Exclude known problematic regions
+                  "bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO[\t%GT\t%AD\t%DP]\n' |";
 
-    # Separate pipes: -R and -T ^ must not be mixed in the same bcftools call
-    # --regions-overlap record: returns gVCF blocks even when POS < query position
-    # Requires bcftools >= 1.14 and tabix-indexed gVCF
-    my $view_cmd = $use_targets
-        ? "bcftools view -R $targets_file --regions-overlap record $input_gvcf"
-        : "bcftools view $input_gvcf";
+    # Initialize counters
+    my ($countsite, $countcov, $countsnp) = (0, 0, 0);
 
-    my $command =
-        "$view_cmd | " .
-        "bcftools view -T ^$regions_bed | " .
-        "bcftools query -f '%CHROM\t%POS\t%INFO/END\t%REF\t%ALT\t[%GQ\t%DP\t%MIN_DP\t%AD]\n' |";
+    # Open the bcftools pipeline
+    open (VAR, $command) or die "Error: failed to execute bcftools pipeline: $!\n";
 
-    print STDERR "NOTICE: Running bcftools extraction...\n";
-    open(VAR, $command) or die "bcftools pipeline failed: $!\n";
-    open(OUT, ">$outfile") or die "Cannot write $outfile: $!\n";
+    # Open output file
+    open (OUT, ">$readoutfile") or die "Error: cannot write to $readoutfile: $!\n";
+
+    # Write header
     print OUT "Name\tCoverage\tBAC\tBAF\tLength\n";
 
-    my ($countsnp, $sumcov) = (0, 0);
-
+    # Process each variant line
     while (<VAR>) {
         chomp;
-        my ($chr, $pos, $end, $ref, $alt, $gq, $dp, $min_dp, $ad) = split /\t/;
 
-        # Normalize chr prefix
-        (my $chr_norm = $chr) =~ s/^chr//i;
-        $chr_norm = "chr$chr_norm";
-
-        # Resolve block end (or single position if no END tag)
-        $end = ($end ne "." && $end =~ /^\d+$/) ? $end : $pos;
-
-        # ── Determine positions to process ───────────────────────────────────
-        my @positions_to_process;
-
-        if ($pos == $end) {
-            # Single position (SNV or single-base ref/ref): O(1) lookup
-            if (!$use_targets || exists $keep{"$chr_norm\t$pos"}) {
-                @positions_to_process = ($pos);
-            }
-        } else {
-            # Reference block: binary search — O(log n + k) for any block size
-            if ($use_targets) {
-                @positions_to_process = bim_in_range($chr_norm, $pos, $end);
-            } else {
-                # No BIM: unavoidable linear expansion
-                warn "WARNING: large reference block $chr_norm:$pos-$end without --bim\n"
-                    if ($end - $pos) > 10000;
-                @positions_to_process = ($pos .. $end);
-            }
+        # Split the tab-delimited fields
+        my ($chr, $pos, $id, $ref, $alt, $qual, $filter, $info, $GT, $AD, $DP) = split /\t/;
+        
+        # BIM whitelist: keep only positions present in the BIM set (WITH 'chr')
+        if (%keep) {
+            my $chr_norm = $chr;
+            $chr_norm =~ s/^chr//i;      # enlève un éventuel 'chr' en tête
+            $chr_norm = "chr$chr_norm";  # remet exactement un seul 'chr'
+            next unless exists $keep{"$chr_norm\t$pos"};  # si absent du BIM -> on saute la ligne
         }
 
-        next unless @positions_to_process;
+        # Skip entries with missing depth
+        next if $DP eq ".";
 
-        # ── Resolve coverage: GATK (DP) vs DeepVariant/other (MIN_DP) ────────
-        my $cov = 0;
-        if (defined $dp && $dp ne "." && $dp > 0) {
-            $cov = $dp;
-        } elsif (defined $min_dp && $min_dp ne "." && $min_dp > 0) {
-            $cov = $min_dp;
-        } else {
-            next;
-        }
+        my $cov = $DP;
+        $countsite++;
+        $countcov += $cov;
 
-        # ── Quality filters in Perl (after DP/MIN_DP resolution) ─────────────
-        my $qual = (defined $gq && $gq ne ".") ? $gq : 0;
-        next if $qual < $GQ_threshold;
-        next if $cov  < $DP_threshold;
+        # Skip entries without AD field
+        next if $AD eq ".";
 
-        # ── BAC: sum ALL alt alleles (bi-allelic model for PennCNV) ──────────
-        my ($bac, $baf) = (0, 0);
-        if (defined $ad && $ad ne ".") {
-            my @alleles = split /,/, $ad;
-            for my $i (1 .. $#alleles) {
-                $bac += $alleles[$i]
-                    if defined $alleles[$i] && $alleles[$i] ne ".";
-            }
-            $baf = $cov > 0 ? $bac / $cov : 0;
-            $baf = 1 if $baf > 1;
-        }
+        # AD format: ref_count, alt_count, nonref_count
+        my ($AREF, $AALT, $NONREF) = split /,/, $AD;
 
-        # ── Write one line per BIM position ──────────────────────────────────
-        for my $current_pos (@positions_to_process) {
-            printf OUT "%s\t%d\t%d\t%.4f\t%d\n",
-                "$chr_norm:$current_pos-$current_pos", $cov, $bac, $baf, 1;
-            $countsnp++;
-            $sumcov += $cov;
-        }
+        # Use alt_count as BAC (B Allele Count)
+        my $bac = ($AALT ne ".") ? $AALT : next;
+
+        # Compute B Allele Frequency
+        my $baf = $bac / $cov;
+
+        # Format position name: chr:start-end
+        my $region = "$chr:$pos-$pos";
+
+        # Write data line
+        printf OUT "%s\t%d\t%d\t%.2f\t%d\n", $region, $cov, $bac, $baf, 1;
+
+        $countsnp++;
     }
-    close VAR;
-    close OUT;
 
-    # Mean coverage computed on exported SNPs only (not on raw gVCF lines)
-    $meancov = $countsnp > 0 ? $sumcov / $countsnp : 30;
-    print STDERR "NOTICE: Processed $countsnp valid SNPs, mean coverage = $meancov\n";
+    # Compute mean coverage
+    $meancov = $countsite > 0 ? $countcov / $countsite : 30;
 
-    unlink $targets_file if -e $targets_file;
+    print STDERR "NOTICE: Processed $countsite sites ($countsnp valid SNPs), mean coverage = $meancov\n";
 }
 
-# ─── Step 2: Compute LRR and write final output ───────────────────────────────
+# ===================================================
+# FUNCTION: Compute Log R Ratio and write final output
+# Output: <prefix>.baf_lrr.tsv (PennCNV and QuantiSNP compatible)
+# ===================================================
 sub addLRRBAF {
-    my ($infile, $outfile, $meancov, $sample_id) = @_;
+    my ($readinfile, $readoutfile, $meancov, $sample_id, $output_dir) = @_;
+
+    # Fallback if mean coverage was not calculated
     $meancov ||= 30;
 
-    print STDERR "NOTICE: Adding LRR/BAF to final report: $outfile\n";
+    print STDERR "NOTICE: Adding LRR/BAF to final report: $readoutfile\n";
 
-    open(IN,  $infile)     or die "Cannot read $infile: $!\n";
-    open(OUT, ">$outfile") or die "Cannot write $outfile: $!\n";
+    open (IN,  $readinfile)     or die "Error: cannot read $readinfile: $!\n";
+    open (OUT, ">$readoutfile") or die "Error: cannot write $readoutfile: $!\n";
 
+    # Read and validate header
     $_ = <IN>; chomp;
-    /^Name\tCoverage/ or die "Invalid header in $infile: <$_>\n";
+    /^Name\tCoverage/ or die "Error: invalid header in $readinfile: <$_>\n";
 
+    # Write final header in PennCNV-compatible format
     print OUT "Name\tChr\tPosition\t$sample_id.Log R Ratio\t$sample_id.B Allele Freq\n";
 
+    # Read each line of SNP data
     while (<IN>) {
         chomp;
-        my ($name, $coverage, $bac, $baf) = split /\t/;
+
+        # Split input fields
+        my ($name, $coverage, $bac, $baf, $length, $TYPE) = split /\t/;
+
+        # Prevent division by zero
         $coverage = $coverage > 0 ? $coverage : 1;
 
-        $name =~ /^(?:chr)?(\w+):(\d+)-(\d+)$/
-            or die "Invalid Name format: <$name>\n";
-        my ($chr, $start) = ($1, $2);
+        # Parse chromosome and position from name (e.g., chr1:12345-12345)
+        my ($chr, $start, $end);
+        if ($name =~ /^(?:chr)?(\w+):(\d+)-(\d+)$/) {
+            ($chr, $start, $end) = ($1, $2, $3);
+        } else {
+            die "Error: invalid Name format <$name>\n";
+        }
 
-        print OUT join("\t", $name, $chr, $start, log($coverage / $meancov), $baf), "\n";
+        # Calculate Log R Ratio = log(observed_coverage / mean_coverage)
+        my $lrr = log($coverage / $meancov);
+
+        # Write output line
+        print OUT join("\t", $name, $chr, $start, $lrr, $baf), "\n";
     }
-    close IN;
-    close OUT;
 }
+
