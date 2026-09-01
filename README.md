@@ -299,7 +299,7 @@ nextflow run main.nf \
 | 5 | `split_iids` | Divide selected individuals into batches |
 | 6 | `pfb_partial` | Compute partial PFB statistics from generated BAF signals |
 | 7 | `pfb_reduce` | Aggregate partial estimates into the final PFB file |
-| 8 | `filter_baf_lrr_files` | Filter LRR/BAF files using the retained cohort-level reference positions |
+| 8 | `filter_baf_lrr_files` |Generate the final filtered LRR/BAF files|
 
 ---
 
