@@ -8,7 +8,7 @@ A Nextflow DSL2 pipeline for generating Log R Ratio (LRR) and B Allele Frequency
 
 ## Overview
 
-gVCFToLRRBAF takes population-level VCF files and individual-level gVCF files as input and generates per-sample LRR and BAF signals at selected SNV positions.
+gVCFToLRRBAF takes population-level VCF (pVCF) files and individual-level gVCF files as input and generates per-sample LRR and BAF signals at selected SNV positions.
 
 Population-level VCF files are first used to construct a cohort-level SNV reference panel after genotype quality-control filtering. The resulting PLINK BIM file defines the SNV positions retained for downstream signal extraction.
 
@@ -129,7 +129,7 @@ The workflow has been tested with:
 
 Population-level VCF files from chromosomes 1–22 are converted to PLINK format and merged.
 
-The default genotype quality-control filters used in the manuscript are:
+The genotype quality-control filters used in the manuscript are:
 
 ```text
 --geno 0.05
@@ -147,7 +147,7 @@ These correspond to:
 
 Biallelic SNVs passing these filters are retained.
 
-Variants overlapping problematic genomic regions are excluded before construction of the final cohort-level reference panel.
+Variants overlapping problematic genomic regions are excluded before construction of the final cohort-level SNV reference panel.
 
 The resulting PLINK BIM file contains the retained SNV positions used for downstream LRR/BAF signal extraction.
 
@@ -155,19 +155,23 @@ The resulting PLINK BIM file contains the retained SNV positions used for downst
 
 ## Problematic genomic regions
 
-Problematic genomic regions are defined using a curated annotation resource combining:
+Problematic genomic regions used for filtering include:
 
 - segmental duplications
 - centromeres
 - telomeres
 - the major histocompatibility complex (MHC)
-- UCSC problematic-region tracks
+- UCSC problematic-region tracks, including UCSC Unusual Regions, ENCODE Blacklist v2, and GRC exclusion regions
 
-The problematic-region tracks include UCSC Unusual Regions, ENCODE Blacklist v2, and GRC exclusion regions.
+Coordinates were retrieved from the UCSC Genome Browser and Genome Reference Consortium resources in April 2025. Overlapping intervals were merged using BEDTools.
 
-Coordinates were retrieved from the UCSC Genome Browser and Genome Reference Consortium resources. Overlapping intervals were merged using BEDTools.
+The annotation files, source URLs, and commands used to generate these resources are available in:
 
-The annotation files, source URLs, and code used to generate them are distributed with the pipeline for both GRCh37 and GRCh38.
+```text
+scripts/resources/
+```
+
+Resources are provided for both GRCh37 and GRCh38.
 
 ---
 
