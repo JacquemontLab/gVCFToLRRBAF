@@ -1,4 +1,4 @@
-# gVCFToLRRBAF
+# gVCF2CNV
 
 A Nextflow DSL2 pipeline for generating Log R Ratio (LRR) and B Allele Frequency (BAF) signals from whole-genome sequencing (WGS) gVCF files for downstream copy number variant (CNV) detection with established LRR/BAF-based callers.
 
@@ -8,7 +8,7 @@ A Nextflow DSL2 pipeline for generating Log R Ratio (LRR) and B Allele Frequency
 
 ## Overview
 
-gVCFToLRRBAF takes population-level VCF (pVCF) files and individual-level gVCF files as input and generates per-sample LRR and BAF signals at selected SNV positions.
+gVCF2CNV takes population-level VCF (pVCF) files and individual-level gVCF files as input and generates per-sample LRR and BAF signals at selected SNV positions.
 
 Population-level VCF files are first used to construct a cohort-level SNV reference panel after genotype quality-control filtering. The resulting PLINK BIM file defines the SNV positions retained for downstream signal extraction.
 
@@ -180,8 +180,8 @@ Resources are provided for both GRCh37 and GRCh38.
 Clone the repository:
 
 ```bash
-git clone https://github.com/zedicush/gVCFToLRRBAF.git
-cd gVCFToLRRBAF
+git clone https://github.com/zedicush/gVCF2CNV.git
+cd gVCF2CNV
 ```
 
 Make sure Nextflow and the required dependencies are available in your environment.
@@ -397,7 +397,7 @@ Because gVCF structures and FORMAT fields can differ between variant-calling pip
 
 ## Downstream CNV calling
 
-gVCFToLRRBAF generates LRR and BAF signals for downstream CNV calling with established LRR/BAF-based callers.
+gVCF2CNV generates LRR and BAF signals for downstream CNV calling with established LRR/BAF-based callers.
 
 The manuscript evaluates:
 
@@ -426,7 +426,7 @@ Resource requirements depend on cohort size, gVCF representation, batch size, st
 
 ## Citation
 
-A preprint describing gVCFToLRRBAF has been submitted to bioRxiv.
+A preprint describing gVCF2CNV has been submitted to bioRxiv.
 
 The full citation and DOI will be added once the preprint is publicly available.
 
