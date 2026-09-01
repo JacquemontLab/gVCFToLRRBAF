@@ -22,7 +22,6 @@ process pVCF_to_plink {
 process plink_filter_merge {
   tag "plink_filter_merge"
 
-  // BUG2 FIX: au lieu du hack tmp_bfiles_all (répertoire créé dans le launch dir),
   // on utilise le staging natif Nextflow avec path("bfiles/*").
   // Tous les .bed/.bim/.fam sont stagés dans un sous-dossier "bfiles/" du workdir.
   input:
@@ -63,7 +62,7 @@ process select_unrel_topN {
   """
 }
 
-// === PROCESSUS 4 : gVCF → LRR/BAF (1 job SLURM par batch de ~125 individus) ===
+// === PROCESSUS 4 : gVCF → LRR/BAF  ===
 process gvcf_to_signalintensity {
   tag { gvcf_list.simpleName }
 
@@ -154,7 +153,7 @@ process pfb_reduce {
 }
 
 process filter_baf_lrr_files {
-  // Traite ~250 fichiers BAF par job → ~50 jobs au lieu de 12 509
+  // filter
   tag "filter_baf_lrr_batch"
 
   input:
@@ -198,7 +197,6 @@ workflow {
     converted = pVCF_to_plink(vcf_files)
 
     // 2) Collecter tous les .bed/.bim/.fam et les passer à plink_filter_merge.
-    //    BUG2 FIX: on supprime le hack "tmp_bfiles_all" (mkdir + copyTo dans le launch dir).
     //    Le staging natif path("bfiles/*") gère tout dans le workdir du processus.
     converted
       .flatten()
@@ -214,7 +212,7 @@ workflow {
       params.topN ?: 700
     )
 
-    // 4) Découper les 12509 gVCF en batches → 1 job SLURM par batch de ~gvcf_batch_size individus
+    // 4) Découper les gVCF en batches → 1 job SLURM par batch de ~gvcf_batch_size individus
     Channel
       .fromPath("${params.inputDirgVCF}/*.gvcf.gz", checkIfExists: true)
       .map { vcf ->
@@ -230,7 +228,7 @@ workflow {
       }
       .set { gvcf_batch_files }
 
-    // 5) ~100 jobs SLURM en parallèle (au lieu d'un seul job pour 12509 individus)
+    // 5)  jobs SLURM en parallèle 
     gvcf_to_signalintensity(gvcf_batch_files, plink_filter_merge.out.merged_bim)
 
     iid_ch = select_unrel_topN.out.keep_unrel_topN
@@ -265,7 +263,7 @@ workflow {
       "PFB.tsv"
     )
 
-    // 9) Filtrer par batches de ~250 fichiers → ~50 jobs SLURM au lieu de 12 509
+    // 9) Filtrer par batches 
     gvcf_to_signalintensity.out.baflrr_files
       .flatten()
       .collate(params.filter_batch_size ?: 250)
