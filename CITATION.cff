@@ -2,7 +2,7 @@ cff-version: 1.2.0
 
 message: "If you use this software, please cite it using the citation information below."
 
-title: "gVCFToLRRBAF"
+title: "gVCF2CNV"
 
 type: software
 
@@ -10,6 +10,6 @@ authors:
   - family-names: "Diop"
     given-names: "Mame Seynabou"
 
-repository-code: "https://github.com/zedicush/gVCFToLRRBAF"
+repository-code: "https://github.com/zedicush/gVCF2CNV"
 
 license: "Apache-2.0"
