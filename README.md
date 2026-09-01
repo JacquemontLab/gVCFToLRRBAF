@@ -434,9 +434,7 @@ The full citation and DOI will be added once the preprint is publicly available.
 
 ## License
 
-A software license will be added before the manuscript release.
-
-Please refer to the `LICENSE` file once the final license has been selected.
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
 ---
 
